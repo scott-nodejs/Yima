@@ -32,7 +32,7 @@ const store = new Vuex.Store({
 		},
 		updateRecommend(state, recommendArr){
 			state.recommendArr = recommendArr;
-			state.headerType = recommendArr[0].setData.style;
+			state.headerType = recommendArr[0].style;
 			state.cardData = recommendArr[0];
 		},
 		setTemp(state,param){

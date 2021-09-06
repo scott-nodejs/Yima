@@ -6,7 +6,7 @@ const state = {
 const mutations = {
 	updateRecommend(state, recommendArr){
 		state.recommendArr = recommendArr;
-		state.headerType = recommendArr[0].setData.style;
+		state.headerType = recommendArr[0].config;
 		state.cardData = recommendArr[0];
 	},
 };

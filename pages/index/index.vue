@@ -8,16 +8,16 @@
            <view v-if="item.type === 'head'">
 			   <head-myHeader :headerType='headerType' :cardData="cardData"></head-myHeader>
 		   </view>
-           <view style="position: relative;box-sizing: border-box;" v-if="item.type === 'text'">
+           <view style="position: relative;box-sizing: border-box;" v-if="item.type === 'base-text'">
 			   <view>
-				   <view class="title_level1" v-bind:style="{fontSize: item.setData.fontSize +'px'}" style="padding: 15px;line-height: 1.5;text-align: left;" >{{item.temData.txt}}</view>
+				   <view class="title_level1" v-bind:style="{fontSize: item.config.font-size +'px'}" style="padding: 15px;line-height: 1.5;text-align: left;" >{{item.cdata.txt}}</view>
 			   </view>
            </view>
-		   <view v-if="item.type === 'image'">
-				<image style="width: 100%;" mode="widthFix"  :src="'https://wximg.aliyinba.com/'+item.temData.img"></image>
+		   <view v-if="item.type === 'base-image'">
+				<image style="width: 100%;" mode="widthFix"  :src="'http://img.hazer.top/'+item.cdata.img"></image>
 		   </view>
 		   <view v-if="item.type === 'advert'">
-			   <com-banner :adData="item.temData.advertList"></com-banner>
+			   <com-banner :adData="item.cdata.advertList"></com-banner>
 		   </view>
 		   <!-- <view v-if="item.type === 'richtext'">
 			   <view v-html="item.temData"></view>
@@ -46,7 +46,7 @@
     },
 	onLoad(option) {
 		console.log(option.cardID);
-		let url = 'https://api.hutuiai.com/api/CardPage/GetInfo?__rnd=1625017806792&cardId='+option.cardID+'&pageType=card';
+		let url = 'http://localhost:9080/oneCode/api/getInfo?clientId=6';
 		new Promise((resolve, reject) =>{
 			uni.request({
 			   url: url,
@@ -55,7 +55,7 @@
 			   }
 			  });
 		  }).then((res)=>{
-			  var data = JSON.parse(res.data.data.Elements);
+			  var data = res.data.data.cdata;
 			  console.log(data);
 			  this.$store.commit('updateRecommend',data);
 		  })
