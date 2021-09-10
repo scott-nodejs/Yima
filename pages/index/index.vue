@@ -16,7 +16,7 @@
 		   <view v-if="item.type === 'base-image'">
 				<image style="width: 100%;" mode="widthFix"  :src="'http://img.hazer.top/'+item.cdata.img"></image>
 		   </view>
-		   <view v-if="item.type === 'advert'">
+		   <view v-if="item.type === 'swiper-banner'">
 			   <com-banner :adData="item.cdata.advertList"></com-banner>
 		   </view>
 		   <!-- <view v-if="item.type === 'richtext'">
@@ -46,7 +46,7 @@
     },
 	onLoad(option) {
 		console.log(option.cardID);
-		let url = 'http://localhost:9080/oneCode/api/getInfo?clientId=6';
+		let url = 'http://yima.hazer.top/api/getInfo?clientId='+option.clientId;
 		new Promise((resolve, reject) =>{
 			uni.request({
 			   url: url,
