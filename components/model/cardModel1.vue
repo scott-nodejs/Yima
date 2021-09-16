@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="home-header pd16_15" v-bind:style="{backgroundImage:'url(https://wximg.aliyinba.com/'+cardData.setData.Made_BgImg+')'}">
+		<view class="home-header pd16_15" v-bind:style="{backgroundImage:'url(http://img.hazer.top/'+cardData.cdata.bgImg+')'}">
 			
 		</view>
 		<view class="home-main">
@@ -43,32 +43,32 @@
 					 </view>
 				 </view> -->
 				 <view class="flex alcenter mt16">
-				 	<image class="adviser-face-big" :src="'https://wximg.aliyinba.com/'+cardData.temData.Profile"></image>
+				 	<image class="adviser-face-big" :src="'http://img.hazer.top/'+cardData.cdata.avterUrl"></image>
 				 	<view style="width: calc(100% - 160rpx);" class=" pl15">
-				 		<view class="ft16 cl-main ftw600">{{cardData.temData.UserName}}</view>
-						<view v-if="cardData.temData.JobTitle !== ''">
+				 		<view class="ft16 cl-main ftw600">{{cardData.cdata.company}}</view>
+						<view v-if="cardData.cdata.userName !== ''">
 							<view class="flex alcenter mt8">
 								<view class="flex alcenter cl-notice">
 									<text class="iconfont iconicon_user ft14"></text>
 									<!-- <text class="ft14 ml5">联系人:</text> -->
-									<text class="ft14 ml5">{{cardData.temData.JobTitle}}</text>
+									<text class="ft14 ml5">{{cardData.cdata.userName}}</text>
 								</view>
 							</view>
 						</view>
-						<view v-if="cardData.temData.Weixin !== ''">
+						<view v-if="cardData.cdata.weixin !== ''">
 							<view class="flex alcenter mt8">
 								<view class="flex alcenter cl-notice">
 									<text class="iconfont iconicon_weixin ft14"></text>
-									<text class="ft14 ml5">{{cardData.temData.Weixin}}</text>
+									<text class="ft14 ml5">{{cardData.cdata.weixin}}</text>
 								</view>
 								<view class="copy-tag ml10" :style="{background:tempColor}">复制</view>
 							</view>
 						</view>
-				 		<view v-if="cardData.temData.Telephone !== ''">
+				 		<view v-if="cardData.cdata.phone !== ''">
 							<view class="flex alcenter space mt8">
 								<view class="flex alcenter cl-notice">
 									<text class="iconfont iconicon_call ft14"></text>
-									<text class="ft14 ml5">{{cardData.temData.Telephone}}</text>
+									<text class="ft14 ml5">{{cardData.cdata.phone}}</text>
 								</view>
 								
 								<text class="iconfont iconicon_bottom_call ft20" :style="{color:tempColor}"></text>
@@ -76,12 +76,12 @@
 						</view>
 				 	</view>
 				 </view>
-				 <view v-if="cardData.temData.Address !== ''">
+				 <view v-if="cardData.cdata.address !== ''">
 					 <view class="flex alcenter mt8">
 						<view class="flex alcenter cl-notice">
 							<text class="iconfont iconicon_location02 ft14"></text>
 							<!-- <text class="ft14">地址:</text> -->
-							<text class="ft14 ml5">{{cardData.temData.Address}}</text>
+							<text class="ft14 ml5">{{cardData.cdata.address}}</text>
 						</view>
 						
 						<view @click="jumpMap" class="copy-tag ml10" :style="{background:tempColor}">查看</view>

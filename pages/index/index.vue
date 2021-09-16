@@ -5,12 +5,14 @@
      :scroll-with-animation="true" 
      @scroll="scroll">
          <view class="scroll-view-item"  v-for="(item,idx) in recommendArr" :key="idx">
-           <view v-if="item.type === 'head'">
+           <view v-if="item.type === 'header'">
 			   <head-myHeader :headerType='headerType' :cardData="cardData"></head-myHeader>
 		   </view>
            <view style="position: relative;box-sizing: border-box;" v-if="item.type === 'base-text'">
 			   <view>
 				   <view class="title_level1" v-bind:style="{fontSize: item.config.font-size +'px'}" style="padding: 15px;line-height: 1.5;text-align: left;" >{{item.cdata.txt}}</view>
+			       <!-- <rich-text :nodes="item.cdata.txt"></rich-text> -->
+				   <!-- <model-myRichText :content="item.cdata.txt"></model-myRichText> -->
 			   </view>
            </view>
 		   <view v-if="item.type === 'base-image'">
@@ -22,8 +24,8 @@
 		   <!-- <view v-if="item.type === 'richtext'">
 			   <view v-html="item.temData"></view>
 		   </view> -->
-		   <view v-if = "item.type === 'video'">
-			   <video style="width: 100%;height: 182px;" :src="'https://wximg.aliyinba.com/'+item.temData.src"></video>
+		   <view v-if = "item.type === 'base-video'">
+			   <video style="width: 100%;height: 182px;" :src="'http://img.hazer.top'+item.cdata.src"></video>
 		   </view>
          </view>
 		 <com-copyright></com-copyright>
@@ -45,8 +47,7 @@
       }
     },
 	onLoad(option) {
-		console.log(option.cardID);
-		let url = 'http://yima.hazer.top/api/getInfo?clientId='+option.clientId;
+		let url = 'http://http://yima.hazer.top/api/getInfo?clientId='+option.clientId;
 		new Promise((resolve, reject) =>{
 			uni.request({
 			   url: url,

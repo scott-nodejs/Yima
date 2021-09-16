@@ -3,44 +3,44 @@
 		<view class="tuan-detail-header">
 			<swiper :indicator-dots="true" indicator-color="rgba(255,255,255,.3)" indicator-active-color="#ffffff" class="tuan-detail-swiper" :autoplay="true"  :interval="3000" :duration="400">
 				 <swiper-item>
-					 <image :src="'https://wximg.aliyinba.com/'+cardData.setData.Made_BgImg"></image>
+					 <image :src="'http://img.hazer.top/'+cardData.cdata.bgImg"></image>
 				 </swiper-item>
 			</swiper>
 		</view>
 		<view class="tuan-detail-tit pd20_15">
-			<view class="ft18 cl-main ftw600">{{cardData.temData.UserName}}</view>
+			<view class="ft18 cl-main ftw600">{{cardData.cdata.company}}</view>
 			<view class="flex alcenter space mt12">
 				<view class="flex alcenter">
 					<text class="ft16 cl-orange">联系人:</text>
-					<text class="ft16 cl-orange ftw600">{{cardData.temData.JobTitle}}</text>
+					<text class="ft16 cl-orange ftw600">{{cardData.cdata.userName}}</text>
 					<!-- <text class="ml10 ft16 cl-notice">电话：</text>
 					<text class="ft16 cl-notice ">{{cardData.temData.Telephone}}</text> -->
 				</view>
-				<view class="cl-notice ft16">点赞{{cardData.temData.likeQty}}</view>
+				<view class="cl-notice ft16">点赞{{cardData.cdata.likeQty}}</view>
 			</view>
-			<view v-if="cardData.temData.Telephone !== ''">
+			<view v-if="cardData.cdata.phone !== ''">
 				<view class="flex alcenter mt8">
 					<view class="flex alcenter cl-notice">
 						<text class="iconfont iconicon_mobilephone ft14"></text>
-						<text class="ft16 ml5">{{cardData.temData.Telephone}}</text>
+						<text class="ft16 ml5">{{cardData.cdata.phone}}</text>
 					</view>
-					<text class="iconfont iconicon_bottom_call ft20" :style="{color:tempColor}"></text>
+					<view class="iconfont iconicon_bottom_call ft20" :style="{color:tempColor}"></view>
 				</view>
 			</view>
-			<view v-if="cardData.temData.Weixin !== ''">
+			<view v-if="cardData.cdata.weixin !== ''">
 				<view class="flex alcenter mt8">
 					<view class="flex alcenter cl-notice">
 						<text class="iconfont iconicon_weixin ft14"></text>
-						<text class="ft16 ml5">{{cardData.temData.Weixin}}</text>
+						<text class="ft16 ml5">{{cardData.cdata.weixin}}</text>
 					</view>
 					<view class="copy-tag ml10" :style="{background:tempColor}">复制</view>
 				</view>
 			</view>
-			<view v-if="cardData.temData.Address !== ''">
+			<view v-if="cardData.cdata.address !== ''">
 				<view class="flex alcenter mt8">
 					<view class="flex alcenter cl-notice">
 						<text class="iconfont iconicon_location02 ft14"></text>
-						<text class="ft16 ml5">{{cardData.temData.Address}}</text>
+						<text class="ft16 ml5">{{cardData.cdata.address}}</text>
 					</view>
 					<view class="copy-tag ml10" :style="{background:tempColor}">查看</view>
 				</view>
@@ -53,7 +53,7 @@
 		</view>
 		
 		
-		<view class="form-footer-h">
+		<!-- <view class="form-footer-h">
 			<view class="form-footer-h form-footer">
 				<view class="form-footer-main pd10_15 flex alcenter space">
 						
@@ -79,7 +79,7 @@
 						<button  @click="buyAct" class="btn-big" style="width: 288rpx;" :style="getBtnStyle">¥100购买</button>
 				</view>
 			</view>
-		</view>
+		</view> -->
 		
 		<dialog-login v-if="showLogin" @loginYes="loginYes" @closed="showLogin = false"></dialog-login>
 		
