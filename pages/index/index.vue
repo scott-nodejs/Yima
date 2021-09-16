@@ -47,7 +47,7 @@
       }
     },
 	onLoad(option) {
-		let url = 'http://http://yima.hazer.top/api/getInfo?clientId='+option.clientId;
+		let url = 'http://yima.hazer.top/api/getInfo?clientId='+option.clientId;
 		new Promise((resolve, reject) =>{
 			uni.request({
 			   url: url,
