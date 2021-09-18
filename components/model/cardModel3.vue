@@ -42,7 +42,9 @@
 						<text class="iconfont iconicon_location02 ft14"></text>
 						<text class="ft16 ml5">{{cardData.cdata.address}}</text>
 					</view>
-					<view class="copy-tag ml10" :style="{background:tempColor}">查看</view>
+					<navigator url="/pages/jump/map">
+					     <view class="copy-tag ml10" :style="{background:tempColor}">查看</view>
+					</navigator>
 				</view>
 			</view>
 			<view class="mt16">
