@@ -96,7 +96,7 @@
       }
     },
 	onLoad(option) {
-		let url = 'http://yima.hazer.top/api/getInfo?clientId='+option.clientId;
+		let url = 'http://localhost:9080/oneCode/api/preview/getInfo/'+option.uid;
 		new Promise((resolve, reject) =>{
 			uni.request({
 			   url: url,
