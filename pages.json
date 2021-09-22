@@ -7,12 +7,6 @@
 			}  
 		},
 		{
-			"path": "pages/preview/index",
-			"style" : {  
-			    "navigationStyle":"custom"  
-			}  
-		},
-		{
 			"path": "pages/jump/map",
 			"style": {
 				"navigationBarTitleText": "地图"

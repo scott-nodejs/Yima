@@ -62,17 +62,11 @@
 			   <view class="mt16">
 			   	<swiper :indicator-dots="false" class="swiper-integral" :autoplay="true" :vertical="true" :interval="2000" :duration="400">
 					<swiper-item>
-			   			<view class="flex alcenter">
+			   			<view class="flex alcenter" v-for="(listItem, index) in item.cdata.config" :key="index">
 			   				<text class="iconfont iconicon_notice ft14 cl-w" style="color: #F0AD4E;"></text>
-			   				<text class="ml10 ft14 cl-main" style="width: calc(100% - 50rpx); overflow: hidden;color: #F0AD4E;">{{item.cdata.config[0].text}}</text>
+			   				<text class="ml10 ft14 cl-main" style="width: calc(100% - 50rpx); overflow: hidden;color: #F0AD4E;">{{listItem.text}}</text>
 			   			</view>
 			   		</swiper-item>
-					<swiper-item>
-						<view class="flex alcenter">
-							<text class="iconfont iconicon_notice ft14 cl-w" style="color: #F0AD4E;"></text>
-							<text class="ml10 ft14 cl-main" style="width: calc(100% - 50rpx); overflow: hidden;color: #F0AD4E;">{{item.cdata.config[1].text}}</text>
-						</view>
-					</swiper-item>
 				</swiper>
 			   </view>
 		   </view>
@@ -91,12 +85,18 @@
         old: {
             scrollTop: 0
         },
+		display: true,
 		autoH:"",
 		autoW:""
       }
     },
 	onLoad(option) {
-		let url = 'http://yima.hazer.top/api/getInfo?clientId='+option.clientId;
+		let url;
+		if(option.preview == 1){
+			url = 'http://yima.hazer.top/api/preview/getInfo/'+option.uid;
+		}else{
+		    url = 'http://yima.hazer.top/api/getInfo?clientId='+option.clientId;
+		}
 		new Promise((resolve, reject) =>{
 			uni.request({
 			   url: url,
@@ -105,6 +105,7 @@
 			   }
 			  });
 		  }).then((res)=>{
+			  this.display = true;
 			  var data = res.data.data.cdata;
 			  console.log(data);
 			  this.$store.commit('updateRecommend',data);
