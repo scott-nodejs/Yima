@@ -26,13 +26,7 @@
 	export default{
 		data(){
 			return {
-				address_id:0,
-				form:{
-					name:'',
-					mobile:'',
-					address:'',
-					is_default:0,
-				},
+				
 			}
 		},
 		props:{
@@ -45,7 +39,7 @@
 				this.form.is_default = this.form.is_default == 0 ? 1 : 0;
 			},
 			submit(){
-				let url = 'http://localhost:9080/oneCode/api/submit';
+				let url = 'http://yima.hazer.top/api/submit';
 				new Promise(uni.request({
 					url: url,
 					method: 'POST',
