@@ -10,7 +10,9 @@
 		   </view>
            <view class="plr15" style="position: relative;box-sizing: border-box;" v-if="item.type === 'base-text'">
 			   <view>
-				   <view class="title_level1" v-bind:style="{fontSize: item.config.font-size +'px'}" style="padding: 15px;line-height: 1.5;text-align: left;" >{{item.cdata.txt}}</view>
+				   <view class="title_level1" v-bind:style="[{color: item.config.color,textAlign: item.config.txtStyle.text-align}]" style="padding: 15px;line-height: 1.5;" >
+					  {{item.cdata.txt}}
+				   </view>
 			       <!-- <rich-text :nodes="item.cdata.txt"></rich-text> -->
 				   <!-- <model-myRichText :content="item.cdata.txt"></model-myRichText> -->
 			   </view>
@@ -70,6 +72,9 @@
 				</swiper>
 			   </view>
 		   </view>
+		   <view v-if="item.type === 'base-form'">
+			   <model-baseForm :formData="item"></model-baseForm>
+		   </view>
          </view>
 		 <com-copyright></com-copyright>
      </scroll-view>
@@ -93,7 +98,7 @@
 	onLoad(option) {
 		let url;
 		if(option.preview == 1){
-			url = 'http://yima.hazer.top/api/preview/getInfo/'+option.uid;
+			url = 'http://localhost:9080/oneCode/api/preview/getInfo/'+option.uid;
 		}else{
 		    url = 'http://yima.hazer.top/api/getInfo?clientId='+option.clientId;
 		}
