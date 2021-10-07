@@ -73,7 +73,7 @@
     },
     "h5" : {
         "title" : "yima",
-        "domain" : "yima.appshuo.club",
+        "domain" : "yima.hazer.top",
         "router" : {
             "base" : "/h5/",
             "mode" : "history"

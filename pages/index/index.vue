@@ -10,15 +10,15 @@
 		   </view>
            <view class="plr15" style="position: relative;box-sizing: border-box;" v-if="item.type === 'base-text'">
 			   <view>
-				   <view class="title_level1" v-bind:style="[{color: item.config.color,textAlign: item.config.txtStyle.text-align}]" style="padding: 15px;line-height: 1.5;" >
+				   <view v-bind:style="[{color: item.config.color,textAlign: item.config.txtStyle.textAlign,fontSize: item.config.fontSize+'px'}]" style="padding-top: 10px;line-height: 1.5;" >
 					  {{item.cdata.txt}}
 				   </view>
-			       <!-- <rich-text :nodes="item.cdata.txt"></rich-text> -->
-				   <!-- <model-myRichText :content="item.cdata.txt"></model-myRichText> -->
 			   </view>
            </view>
 		   <view class="plr15" v-if="item.type === 'base-image'">
+			   <view class="mt16">
 				<image style="width: 100%;" mode="widthFix"  :src="'http://img.hazer.top/'+item.cdata.img"></image>
+		       </view>
 		   </view>
 		   <view class="plr15" v-if="item.type === 'swiper-banner'">
 			   <com-banner :adData="item.cdata.advertList"></com-banner>
@@ -63,8 +63,8 @@
 		   <view class="plr15" v-if="item.type === 'news-marquee'">
 			   <view class="mt16">
 			   	<swiper :indicator-dots="false" class="swiper-integral" :autoplay="true" :vertical="true" :interval="2000" :duration="400">
-					<swiper-item>
-			   			<view class="flex alcenter" v-for="(listItem, index) in item.cdata.config" :key="index">
+					<swiper-item v-for="(listItem, index) in item.cdata.config" :key="index">
+			   			<view class="flex alcenter">
 			   				<text class="iconfont iconicon_notice ft14 cl-w" style="color: #F0AD4E;"></text>
 			   				<text class="ml10 ft14 cl-main" style="width: calc(100% - 50rpx); overflow: hidden;color: #F0AD4E;">{{listItem.text}}</text>
 			   			</view>
@@ -98,7 +98,7 @@
 	onLoad(option) {
 		let url;
 		if(option.preview == 1){
-			url = 'http://localhost:9080/oneCode/api/preview/getInfo/'+option.uid;
+			url = 'http://yima.hazer.top/api/preview/getInfo/'+option.uid;
 		}else{
 		    url = 'http://yima.hazer.top/api/getInfo?clientId='+option.clientId;
 		}
@@ -150,7 +150,6 @@ scroll-view ::-webkit-scrollbar {
 } */
 .title_level1{
   font-size: 18px;
-  
 }
 .title_level2{
   font-size: 24rpx;
