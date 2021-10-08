@@ -12,6 +12,15 @@
 						<input :maxlength="64" v-model="item.val" :placeholder="item.placeholder"  class="ft14 cl-main" placeholder-class="cl-notice" />
 					</view>
 				</view>
+				<view class="flex alcenter" v-if="item.type === 'number'">
+					<view class="ft14 cl-main" style="margin-left: -10rpx;color: #FF3D3D;" v-if="item.isNecessary === 1">*</view>
+					<view class="ft14 cl-main" style="width: 144rpx;">
+						{{item.desc}}
+					</view>
+					<view style="width: calc(100% - 144rpx);">
+						<input :maxlength="64" type="number" v-model="item.val" :placeholder="item.placeholder"  class="ft14 cl-main" placeholder-class="cl-notice" />
+					</view>
+				</view>
 				<view class="flex alcenter" v-else-if="item.type === 'radio'">
 					<view class="ft14 cl-main" style="margin-left: -10rpx;color: #FF3D3D;" v-if="item.isNecessary === 1">*</view>
 					<view class="ft14 cl-main" style="width: 144rpx;">
@@ -49,6 +58,15 @@
 						<view class="ft14 cl-main">{{item.options[count].val}}</view>
 					</picker>
 				</view>
+				<view class="flex alcenter" v-else-if="item.type === 'date'">
+					<view class="ft14 cl-main" style="margin-left: -10rpx;color: #FF3D3D;" v-if="item.isNecessary === 1">*</view>
+					<view class="ft14 cl-main" style="width: 144rpx;">
+						{{item.desc}}
+					</view>
+					<picker mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
+					     <view class="ft14 cl-main">{{date}}</view>
+					</picker>
+				</view>
 				<view class="bd-line mt20 mb20" v-if="index != formData.cdata.form.length - 1"></view>
 			</div>
 		</view>
@@ -63,7 +81,11 @@
 <script>
 	export default{
 		data(){
+			const currentDate = this.getDate({
+			    format: true
+			})
 			return {
+				date: currentDate,
 				count: 0
 			}
 		},
@@ -71,6 +93,14 @@
 			formData:{
 				type: Object
 			}
+		},
+		computed: {
+		    startDate() {
+		        return this.getDate('start');
+		    },
+		    endDate() {
+		        return this.getDate('end');
+		    }    
 		},
 		methods:{
 			changeDefault(){
@@ -108,11 +138,25 @@
 					}
 				}
 			},
+			bindDateChange: function(e) {
+			    this.date = e.target.value
+				for(let i = 0; i < this.formData.cdata.form.length; i++){
+					let item = this.formData.cdata.form[i];
+					if(item.type === 'date'){
+						item.val = this.date
+						break;
+					}
+				}
+			},
 			submit(){
 				let flag = true;
 				let url = 'http://yima.hazer.top/api/submit';
 				for(let i = 0; i < this.formData.cdata.form.length; i++){
 					if(this.formData.cdata.form[i].isNecessary === 1 && this.formData.cdata.form[i].val === ''){
+						if(this.formData.cdata.form[i].type === 'date'){
+							this.formData.cdata.form[i].val = this.getDate({format: true});
+							continue;
+						}
 						flag = false;
 						uni.showToast({ 
 						    title: this.formData.cdata.form[i].desc+'是必填项',
@@ -146,14 +190,28 @@
 							
 							let item = this.formData.cdata.form[i];
 							if(item.type === 'select' || item.type === 'radio' || item.type === 'checkbox'){
-								item['options'][0].is_default = 1
-								item.val = item['options'][0].val
+								
 							}else{
 								item.val = ''
 							}
 						}
 					})
 				}
+			},
+			getDate(type) {
+			    const date = new Date();
+			    let year = date.getFullYear();
+			    let month = date.getMonth() + 1;
+			    let day = date.getDate();
+			    			
+			    if (type === 'start') {
+			        year = year - 60;
+			    } else if (type === 'end') {
+			        year = year + 2;
+			    }
+			    month = month > 9 ? month : '0' + month;
+			    day = day > 9 ? day : '0' + day;
+			    return `${year}-${month}-${day}`;        
 			}
 		}
 	}

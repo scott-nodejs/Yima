@@ -17,7 +17,7 @@
            </view>
 		   <view class="plr15" v-if="item.type === 'base-image'">
 			   <view class="mt16">
-				<image style="width: 100%;" mode="widthFix"  :src="'http://img.hazer.top/'+item.cdata.img"></image>
+				<image style="width: 100%;" mode="widthFix"  :src="'http://img.hazer.top/'+item.cdata.img" @tap="_previewImage(item.cdata.img)"></image>
 		       </view>
 		   </view>
 		   <view class="plr15" v-if="item.type === 'swiper-banner'">
@@ -76,8 +76,12 @@
 			   <model-baseForm :formData="item"></model-baseForm>
 		   </view>
          </view>
-		 <com-copyright></com-copyright>
+		 <!-- <com-copyright></com-copyright> -->
+		 <view v-if="gotop === true" class="top"  :style="{'display':(topState===true? 'block':'none')}">
+		     <uni-icons class="topc" type="arrowthinup" size="50" @click="top"></uni-icons>
+		 </view>
      </scroll-view>
+	 
    </view>
 </template>
  
@@ -92,7 +96,9 @@
         },
 		display: true,
 		autoH:"",
-		autoW:""
+		autoW:"",
+		gotop: false,
+		topState: false
       }
     },
 	onLoad(option) {
@@ -111,15 +117,39 @@
 			  });
 		  }).then((res)=>{
 			  this.display = true;
+			  var config = res.data.data;
+			  this.gotop = config.gotop;
 			  var data = res.data.data.cdata;
-			  console.log(data);
 			  this.$store.commit('updateRecommend',data);
+			  uni.setNavigationBarTitle({
+			      title: config.pageName
+			  });
 		  })
+	},
+	onPageScroll(e){ //根据距离顶部距离是否显示回到顶部按钮
+	    if(e.scrollTop>100){ //当距离大于600时显示回到顶部按钮
+	        this.topState = true
+	    }else{ //当距离小于600时显示回到顶部按钮
+	        this.topState = false
+	    }
 	},
     methods:{
       scroll: function(e) {
           this.old.scrollTop = e.detail.scrollTop
-      }
+      },
+	  _previewImage(image){
+		  var imgArr = [];
+		  imgArr.push('http://img.hazer.top/'+image);
+		  uni.previewImage({
+		  	urls:imgArr,
+			current:imgArr[0]
+		  })
+	  },
+	  top() { //回到顶部  
+	  　　　　uni.pageScrollTo({ 
+	  　　　　　　scrollTop: 0, duration: 300 
+	  　　　　}); 
+	  　　} 
     }
   }
 </script>
@@ -182,4 +212,19 @@ scroll-view ::-webkit-scrollbar {
 		height: 32rpx;
 		width: 100%;
 	}
+	/* 回到顶部 */
+	    .top {
+	        position: relative;
+	        display: none; /* 先将元素隐藏 */
+	    }
+	 
+	    .topc {
+	        position: fixed;
+	        right: 0;
+	        background: #5555ff;
+	        top: 70%;
+	        height: 50px;
+	        line-height: 50px;
+			z-index: 99;
+	    }
 </style>
