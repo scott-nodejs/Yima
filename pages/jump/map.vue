@@ -15,21 +15,25 @@ export default {
             title: 'map',
             latitude: 39.909,
             longitude: 116.39742,
-            markers: [{
-                width : 10,
-                height: 10,
-                latitude: 39.909,
-                longitude: 116.39742,
-                iconPath: '../../static/p.png'
-            }]
+            markers: []
         }
     },
 	onLoad(option) {
-		this.latitude = option.lat;
-		this.longitude = option.lng;
+		console.log(option.lnglat);
+		let arr = option.lnglat.split(',');
+		console.log(arr)
+		this.latitude = arr[1];
+		this.longitude = arr[0];
 	},
-    methods: {
-    }
+	onShow() {
+		this.markers=[{
+			    width : 40,
+			    height: 60,
+			    latitude: this.latitude,
+			    longitude: this.longitude,
+			    iconPath: '../../static/p.png'
+			}]
+	}
 }
 </script>
 <style>

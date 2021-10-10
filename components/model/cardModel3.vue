@@ -24,7 +24,7 @@
 						<text class="iconfont iconicon_mobilephone ft14"></text>
 						<text class="ft16 ml5">{{cardData.cdata.phone}}</text>
 					</view>
-					<view class="iconfont iconicon_bottom_call ft20" :style="{color:tempColor}"></view>
+					<view class="iconfont iconicon_bottom_call ft20" @click="goCall(cardData.cdata.phone)" :style="{color:tempColor}"></view>
 				</view>
 			</view>
 			<view v-if="cardData.cdata.weixin !== ''">
@@ -33,7 +33,7 @@
 						<text class="iconfont iconicon_weixin ft14"></text>
 						<text class="ft16 ml5">{{cardData.cdata.weixin}}</text>
 					</view>
-					<view class="copy-tag ml10" :style="{background:tempColor}">复制</view>
+					<view class="copy-tag ml10" @click="copyText(cardData.cdata.weixin)" :style="{background:tempColor}">复制</view>
 				</view>
 			</view>
 			<view v-if="cardData.cdata.address !== ''">
@@ -42,15 +42,17 @@
 						<text class="iconfont iconicon_location02 ft14"></text>
 						<text class="ft16 ml5">{{cardData.cdata.address}}</text>
 					</view>
-					<navigator url="/pages/jump/map">
+					<navigator :url="'/pages/jump/map?lnglat='+cardData.cdata.lnglat">
 					     <view class="copy-tag ml10" :style="{background:tempColor}">查看</view>
 					</navigator>
 				</view>
 			</view>
 			<view class="mt16">
-				<view class="user-not-vip">
-					发送给朋友
-				</view>
+				<navigator :url="'/pages/jump/genPic?coverImg='+cardData.cdata.bgImg+'&company='+cardData.cdata.company">
+					<view class="user-not-vip">
+						发送给朋友
+					</view>
+				</navigator>
 			</view>
 		</view>
 		
@@ -148,6 +150,26 @@
 			},
 			changeIndex(index){
 				this.selectIndex = index;
+			},
+			goCall(phoneNumber){
+				uni.makePhoneCall({
+					phoneNumber:phoneNumber,
+					success() {
+						console.log("调用成功")
+					},
+					fail() {
+						console.log("调用失败");
+					}
+				})
+			},
+			copyText(val){
+				this.$copyText(val).then(
+				     res => {
+				         uni.showToast({
+				         title: '复制成功'
+				     })
+				   }
+			    )
 			}
 		}
 	}

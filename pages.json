@@ -12,6 +12,15 @@
 				"navigationBarTitleText": "地图"
 			}
 		}
+        ,{
+            "path" : "pages/jump/genPic",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "生成海报",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

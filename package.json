@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "cos-js-sdk-v5": "^0.5.20",
-    "tim-js-sdk": "^2.1.4"
+    "tim-js-sdk": "^2.1.4",
+    "vue-clipboard2": "^0.3.3"
   }
 }

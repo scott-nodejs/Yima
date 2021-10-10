@@ -9,6 +9,8 @@ import config from './static/js/config.js';
 Vue.prototype.$config = config;
 //权限相关的判断
 import {common} from './static/js/mixin/common.js';
+import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard)
 Vue.mixin(common);
 
 Vue.config.productionTip = false
