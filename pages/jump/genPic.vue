@@ -1,17 +1,43 @@
 <template>
 	<view style="text-align: center;">
-		<canvas canvas-id="myCanvas" style="width: 690px;height:1040px; position: fixed;top: -10000px;"></canvas>
+		<view class="post">
+		    <tki-qrcode
+		        ref="qrcode"
+		        :val="val"
+		        :size="200"
+		        background="#fff"
+		        foreground="#000"
+		        pdground="#000"
+		        :onval="false"
+		        :loadMake="false"
+		        @result="createCanvasImage"
+		        :show="false"
+		    ></tki-qrcode>
+		    <view class="wrapper"><canvas canvas-id="myCanvas" style="width: 690px;height:1040px; position: fixed;top: -10000px;"></canvas></view>
+		</view>
 		<image @click="saveShareImg(canvasToTempFilePath)" style="width: 690upx; height: 1040upx; text-align: center;" :src="canvasToTempFilePath" mode=""></image>
 	</view>
 </template>
  
 <script>
+import tkiQrcode from '@/components/qrcode/tki-qrcode.vue';	
 export default {
+	components: {
+	    tkiQrcode
+	},
 	onLoad(option) {
 		console.log(option)
 		this.coverUrl = option.coverImg;
 		this.company = option.company;
-		this.createCanvasImage();
+		this.address = option.address;
+		this.phone = option.phone;
+		this.weixin = option.weixin;
+		this.userName = option.userName;
+		this.val = 'http://yima.hazer.top/h5/?clientId='+option.clientId;
+		// this.createCanvasImage();
+	},
+	onReady() {
+		this.$refs.qrcode._makeCode();
 	},
 	data() {
 		return {
@@ -20,34 +46,23 @@ export default {
 			canvasToTempFilePath: null, // 保存最终生成的导出的图片地址
 			openStatus: true, // 声明一个全局变量判断是否授权保存到相册
 			coverUrl: '',
-			company: ''
+			company: '',
+			address:'',
+			weixin:'',
+			phone:'',
+			userName:'',
+			val: '',
 		};
 	},
 	methods: {
 		// 生成海报
-		async createCanvasImage() {
+		async createCanvasImage(path) {
+			console.log('path:'+path)
 			let self = this;
 			// 点击生成海报数据埋点
 			if (!self.ctx) {
-				let codeUrl = 'http://img.hazer.top/tag/h5-yima-1633836060996.jpeg';
-				let headUrl = 'http://img.hazer.top/tag/h5-yima-1633836060996.jpeg';
 				uni.showLoading({
 					title: '生成中...'
-				});
-				let code = new Promise(function(resolve) {
-					uni.getImageInfo({
-						src: codeUrl,
-						success: function(res) {
-							resolve(res.path);
-						},
-						fail: function(err) {
-							console.log(err);
-							wx.showToast({
-								title: '网络错误请重试',
-								icon: 'loading'
-							});
-						}
-					});
 				});
 				
 				let cover = new Promise(function(resolve) {
@@ -66,24 +81,8 @@ export default {
 					});
 				});
  
-				// 头像
-				let headImg = new Promise(function(resolve) {
-					uni.getImageInfo({
-						src: headUrl,
-						success: function(res) {
-							resolve(res.path);
-						},
-						fail: function(err) {
-							console.log(err);
-							wx.showToast({
-								title: '网络错误请重试',
-								icon: 'loading'
-							});
-						}
-					});
-				});
  
-				Promise.all([headImg, code,cover]).then(function(result) {
+				Promise.all([path,cover]).then(function(result) {
 					const ctx = uni.createCanvasContext('myCanvas');
 					console.log(ctx, self.ratio, 'ctx');
 					let canvasWidthPx = 690 * self.ratio,
@@ -104,7 +103,7 @@ export default {
 						coverurl_x = 40, //绘制的封面在画布上的位置
 						coverurl_y = 190; //绘制的封面在画布上的位置
 						
-					//ctx.drawImage('../../static/bg.jpg', 0, 0, 690, 1040); // 背景图片需要本地
+					ctx.drawImage('../../static/bg.jpg', 0, 0, 690, 1040); // 背景图片需要本地
 					
 					// 白底
 					ctx.setFillStyle('#ffffff')
@@ -119,44 +118,33 @@ export default {
  
 					// ctx.restore(); //恢复之前保存的绘图上下文状态 可以继续绘制
 					
-	// 				ctx.font = 'normal bold 45px sans-serif';
-	// 				ctx.setFillStyle('#ffffff'); // 文字颜色
-	// 				ctx.fillText('微信昵称', 240, 85); // 绘制文字
+					ctx.font = 'normal bold 45px sans-serif';
+					ctx.setFillStyle('#ffffff'); // 文字颜色
+					ctx.fillText('亿码科技', 240, 85); // 绘制文字
  
-	// 				ctx.setFillStyle('#ffffff'); // 文字颜色
-	// 				ctx.setFontSize(30); // 文字字号
-	// 				ctx.fillText('推荐您来捷通驾校', 240, 130); // 绘制文字
+					ctx.setFillStyle('#ffffff'); // 文字颜色
+					ctx.setFontSize(30); // 文字字号
+					ctx.fillText('提供技术支持', 240, 130); // 绘制文字
  
 					ctx.font = 'normal bold 40px sans-serif';
 					ctx.setFillStyle('#222222');
-					ctx.fillText('上捷通驾校', 40, 600);
+					ctx.fillText(self.company, 40, 600);
  
 					ctx.font = 'normal normal 26px sans-serif';
 					ctx.setFillStyle('#666666'); // 文字颜色
-					ctx.fillText('上海市松江区小昆山镇平原街398号5号楼', 40, 640); // 绘制文字
+					ctx.fillText(self.userName, 40, 640); // 绘制文字
 					
-					// 白底
-					ctx.setFillStyle('#CBE6FE')
-					ctx.fillRect(40, 670, 125, 40)
- 
-					ctx.font = 'normal normal 24px sans-serif';
-					ctx.setFillStyle('#1F8DFE'); // 文字颜色
-					ctx.fillText('自有考场', 55, 700); // 绘制文字
+					ctx.font = 'normal normal 26px sans-serif';
+					ctx.setFillStyle('#666666'); // 文字颜色
+					ctx.fillText(self.phone, 40, 680); // 绘制文字
 					
-					// 白底
-					ctx.setFillStyle('#FDE5D2')
-					ctx.fillRect(180, 670, 125, 40)
+					ctx.font = 'normal normal 26px sans-serif';
+					ctx.setFillStyle('#666666'); // 文字颜色
+					ctx.fillText(self.weixin, 40, 720); // 绘制文字
 					
-					ctx.setFillStyle('#F37F26'); // 文字颜色
-					ctx.fillText('收费透明', 195, 700); // 绘制文字
-					
-					// 白底
-					ctx.setFillStyle('#D2F1EF')
-					ctx.fillRect(320, 670, 125, 40)
-					
-					ctx.setFillStyle('#2EBBB4'); // 文字颜色
-					ctx.fillText('有接送', 335, 700); // 绘制文字
-					
+					ctx.font = 'normal normal 26px sans-serif';
+					ctx.setFillStyle('#666666'); // 文字颜色
+					ctx.fillText(self.address, 40, 760); // 绘制文字
  
 					ctx.beginPath();
 					// 设置线宽
@@ -179,14 +167,14 @@ export default {
 					
 					ctx.font = 'normal normal 36px sans-serif';
 					ctx.setFillStyle('#222222'); // 文字颜色
-					ctx.fillText('小程序码', 444, 870); // 绘制孩子百分比
+					ctx.fillText('二维码', 444, 870); // 绘制孩子百分比
 					
 					ctx.font = 'normal normal 36px sans-serif';
 					ctx.setFillStyle('#222222'); // 文字颜色
-					ctx.fillText('查看驾校详细信息', 300, 920); // 绘制孩子百分比
+					ctx.fillText('查看更多详细信息', 300, 920); // 绘制孩子百分比
 					
-					ctx.drawImage(result[2], coverurl_x, coverurl_y, coverurl_width, coverurl_heigth); // 绘制封面
-					ctx.drawImage(result[1], codeurl_x, codeurl_y, codeurl_width, codeurl_heigth); // 绘制头像
+					ctx.drawImage(result[1], coverurl_x, coverurl_y, coverurl_width, coverurl_heigth); // 绘制封面
+					ctx.drawImage(result[0], codeurl_x, codeurl_y, codeurl_width, codeurl_heigth); // 绘制头像
 					ctx.draw(false, function() {
 						// canvas画布转成图片并返回图片地址
 						uni.canvasToTempFilePath({
@@ -221,7 +209,7 @@ export default {
 			self.saveId = '保存学情海报';
 			// 获取用户是否开启用户授权相册
 			if (!self.openStatus) {
-				wx.openSetting({
+				uni.openSetting({
 					success: result => {
 						if (result) {
 							if (result.authSetting['scope.writePhotosAlbum'] === true) {
@@ -250,7 +238,7 @@ export default {
 					complete: () => {}
 				});
 			} else {
-				wx.getSetting({
+				uni.getSetting({
 					success(res) {
 						// 如果没有则获取授权
 						if (!res.authSetting['scope.writePhotosAlbum']) {
@@ -318,4 +306,17 @@ export default {
 };
 </script>
  
-<style></style>
+<style lang="scss">
+	.post {
+	    height: 100%;
+	    background-color: #f4f4f4;
+	
+	    .wrapper {
+	        height: 20rpx;
+	        display: flex;
+	        justify-content: center;
+	        align-items: center;
+	        margin-top: 50upx;
+	    }
+	}
+</style>

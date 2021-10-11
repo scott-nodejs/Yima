@@ -120,7 +120,7 @@
 			  var config = res.data.data;
 			  this.gotop = config.gotop;
 			  var data = res.data.data.cdata;
-			  this.$store.commit('updateRecommend',data);
+			  this.$store.commit('updateRecommend',data, config.clientId);
 			  uni.setNavigationBarTitle({
 			      title: config.pageName
 			  });

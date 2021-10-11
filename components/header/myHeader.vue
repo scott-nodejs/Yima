@@ -1,19 +1,19 @@
 <template>
 	<view>
 		<view v-if="headerType === 0">
-			<model-cardModel1 :cardData="cardData"></model-cardModel1>
+			<model-cardModel1 :cardData="cardData" :clientId="clientId"></model-cardModel1>
 		</view>
 		<view v-if="headerType === 1">
-			<model-cardModel3 :cardData="cardData"></model-cardModel3>
+			<model-cardModel3 :cardData="cardData" :clientId="clientId"></model-cardModel3>
 		</view>
 		<view v-if="headerType === 2">
-			<model-cardModel3 :cardData="cardData"></model-cardModel3>
+			<model-cardModel3 :cardData="cardData" :clientId="clientId"></model-cardModel3>
 		</view>
 		<view v-if="headerType === 3">
 			<model-cardModel1></model-cardModel1>
 		</view>
 		<view v-if="headerType === 4">
-			<model-cardModel1 :cardData="cardData"></model-cardModel1>
+			<model-cardModel1 :cardData="cardData" :clientId="clientId"></model-cardModel1>
 		</view>
 		<view v-if="headerType === 5">
 			<model-cardModel1 :cardData="cardData"></model-cardModel1>

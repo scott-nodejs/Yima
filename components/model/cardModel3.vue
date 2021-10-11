@@ -48,7 +48,7 @@
 				</view>
 			</view>
 			<view class="mt16">
-				<navigator :url="'/pages/jump/genPic?coverImg='+cardData.cdata.bgImg+'&company='+cardData.cdata.company">
+				<navigator :url="'/pages/jump/genPic?coverImg='+cardData.cdata.bgImg+'&company='+cardData.cdata.company+'&address='+cardData.cdata.address+'&phone='+cardData.cdata.phone+'&userName='+cardData.cdata.userName+'&weixin='+cardData.cdata.weixin+'&clientId='+clientId">
 					<view class="user-not-vip">
 						发送给朋友
 					</view>
@@ -104,6 +104,9 @@
 		props:{
 			cardData:{
 				type:Object
+			},
+			clientId:{
+				type:Number
 			}
 		},
 		onLoad(){
