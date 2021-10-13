@@ -10,6 +10,7 @@ const store = new Vuex.Store({
 		headerType: 1,
 		recommendArr:[],
 		cardData:{},
+		cId:0,
 		conversationActive:{},	//聊天进行中的会话
 		toUserId:'',			//聊天对象id
 		conversationList:[],		//会话列表
@@ -30,11 +31,11 @@ const store = new Vuex.Store({
 		updateHeaderType(state, headerType){
 			state.headerType = headerType
 		},
-		updateRecommend(state, recommendArr){
-			state.recommendArr = recommendArr;
-			state.headerType = recommendArr[0].style;
-			state.cardData = recommendArr[0];
-		},
+		// updateRecommend(state, recommendArr){
+		// 	state.recommendArr = recommendArr;
+		// 	state.headerType = recommendArr[0].style;
+		// 	state.cardData = recommendArr[0];
+		// },
 		setTemp(state,param){
 			state.tempColor = param;
 		},

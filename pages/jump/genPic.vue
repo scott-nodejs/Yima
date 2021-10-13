@@ -34,9 +34,11 @@ export default {
 		this.weixin = option.weixin;
 		this.userName = option.userName;
 		this.val = 'http://yima.hazer.top/h5/?clientId='+option.clientId;
+		console.log(this.val)
 		// this.createCanvasImage();
 	},
 	onReady() {
+		console.log(this.val)
 		this.$refs.qrcode._makeCode();
 	},
 	data() {

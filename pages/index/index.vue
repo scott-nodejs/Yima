@@ -6,7 +6,8 @@
      @scroll="scroll">
          <view class="scroll-view-item"  v-for="(item,idx) in recommendArr" :key="idx">
            <view v-if="item.type === 'header'">
-			   <head-myHeader :headerType='headerType' :cardData="cardData"></head-myHeader>
+			   <head-myHeader></head-myHeader>
+			   <!-- <view>{{headerType}}</view> -->
 		   </view>
            <view class="plr15" style="position: relative;box-sizing: border-box;" v-if="item.type === 'base-text'">
 			   <view>
@@ -120,7 +121,7 @@
 			  var config = res.data.data;
 			  this.gotop = config.gotop;
 			  var data = res.data.data.cdata;
-			  this.$store.commit('updateRecommend',data, config.clientId);
+			  this.$store.commit('updateRecommend',config);
 			  uni.setNavigationBarTitle({
 			      title: config.pageName
 			  });

@@ -4,7 +4,7 @@
 			<model-cardModel1 :cardData="cardData" :clientId="clientId"></model-cardModel1>
 		</view>
 		<view v-if="headerType === 1">
-			<model-cardModel3 :cardData="cardData" :clientId="clientId"></model-cardModel3>
+			<model-cardModel3></model-cardModel3>
 		</view>
 		<view v-if="headerType === 2">
 			<model-cardModel3 :cardData="cardData" :clientId="clientId"></model-cardModel3>
@@ -47,12 +47,7 @@
 			}
 		},
 		props: {
-		  headerType: {
-		    type: Number
-		  },
-		  cardData:{
-			  type: Object
-		  }
+		  
 		},
 		methods: {
 			
