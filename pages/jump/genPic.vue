@@ -13,9 +13,9 @@
 		        @result="createCanvasImage"
 		        :show="false"
 		    ></tki-qrcode>
-		    <view class="wrapper"><canvas canvas-id="myCanvas" style="width: 690px;height:1040px; position: fixed;top: -10000px;"></canvas></view>
+		    <view class="wrapper"><canvas canvas-id="myCanvas" style="width: 690px;height:1080px; position: fixed;top: -10000px;"></canvas></view>
 		</view>
-		<image @click="saveShareImg(canvasToTempFilePath)" style="width: 690upx; height: 1040upx; text-align: center;" :src="canvasToTempFilePath" mode=""></image>
+		<image @click="saveShareImg(canvasToTempFilePath)" style="width: 690upx; height: 1080upx; text-align: center;" :src="canvasToTempFilePath" mode=""></image>
 	</view>
 </template>
  
@@ -88,7 +88,7 @@ export default {
 					const ctx = uni.createCanvasContext('myCanvas');
 					console.log(ctx, self.ratio, 'ctx');
 					let canvasWidthPx = 690 * self.ratio,
-						canvasHeightPx = 1040 * self.ratio,
+						canvasHeightPx = 1080 * self.ratio,
 						
 						avatarurl_width = 110, //绘制的头像宽度
 						avatarurl_heigth = 110, //绘制的头像高度
@@ -98,18 +98,18 @@ export default {
 						codeurl_width = 180, //绘制的二维码宽度
 						codeurl_heigth = 180, //绘制的二维码高度
 						codeurl_x = 70, //绘制的二维码在画布上的位置
-						codeurl_y = 800, //绘制的二维码在画布上的位置
+						codeurl_y = 840, //绘制的二维码在画布上的位置
 						
 						coverurl_width = 610, //绘制的封面宽度
 						coverurl_heigth = 350, //绘制的封面高度
 						coverurl_x = 40, //绘制的封面在画布上的位置
 						coverurl_y = 190; //绘制的封面在画布上的位置
 						
-					ctx.drawImage('../../static/bg.jpg', 0, 0, 690, 1040); // 背景图片需要本地
+					ctx.drawImage('../../static/bg.jpg', 0, 0, 690, 1080); // 背景图片需要本地
 					
 					// 白底
 					ctx.setFillStyle('#ffffff')
-					ctx.fillRect(25, 175, 640, 840)
+					ctx.fillRect(25, 175, 640, 880)
 					
 					ctx.save(); // 先保存状态 已便于画完圆再用
 					ctx.beginPath(); //开始绘制
@@ -132,21 +132,26 @@ export default {
 					ctx.setFillStyle('#222222');
 					ctx.fillText(self.company, 40, 600);
  
+                    ctx.drawImage('../../static/person.png', 37, 615, 35, 35);
 					ctx.font = 'normal normal 26px sans-serif';
 					ctx.setFillStyle('#666666'); // 文字颜色
-					ctx.fillText(self.userName, 40, 640); // 绘制文字
+					ctx.fillText(self.userName, 80, 640); // 绘制文字
 					
+					ctx.drawImage('../../static/phone.png', 40, 655, 30, 30);
 					ctx.font = 'normal normal 26px sans-serif';
 					ctx.setFillStyle('#666666'); // 文字颜色
-					ctx.fillText(self.phone, 40, 680); // 绘制文字
+					ctx.fillText(self.phone, 80, 680); // 绘制文字
 					
+					ctx.drawImage('../../static/wx.png', 45, 700, 25, 25);
 					ctx.font = 'normal normal 26px sans-serif';
 					ctx.setFillStyle('#666666'); // 文字颜色
-					ctx.fillText(self.weixin, 40, 720); // 绘制文字
+					ctx.fillText(self.weixin, 80, 720); // 绘制文字
 					
+					ctx.drawImage('../../static/address.png', 40, 735, 30, 30);
 					ctx.font = 'normal normal 26px sans-serif';
 					ctx.setFillStyle('#666666'); // 文字颜色
-					ctx.fillText(self.address, 40, 760); // 绘制文字
+					self.drawText(ctx, self.address, 80, 760, 30,500);
+					//ctx.fillText(self.address, 80, 760); // 绘制文字
  
 					ctx.beginPath();
 					// 设置线宽
@@ -154,9 +159,9 @@ export default {
 					// 设置间距（参数为无限数组，虚线的样式会随数组循环）
 					ctx.setLineDash([10, 10]);
 					// 移动画笔至坐标 x20 y20 的位置
-					ctx.moveTo(30, 760);
+					ctx.moveTo(30, 810);
 					// 绘制到坐标 x20 y100 的位置
-					ctx.lineTo(660, 760);
+					ctx.lineTo(660, 810);
 					// 填充颜色
 					ctx.strokeStyle="#aaaaaa";
 					// 开始填充
@@ -165,15 +170,15 @@ export default {
 					
 					ctx.font = 'normal normal 36px sans-serif';
 					ctx.setFillStyle('#E65449'); // 文字颜色
-					ctx.fillText('长按识别', 300, 870); // 绘制孩子百分比
+					ctx.fillText('长按识别', 300, 910); // 绘制孩子百分比
 					
 					ctx.font = 'normal normal 36px sans-serif';
 					ctx.setFillStyle('#222222'); // 文字颜色
-					ctx.fillText('二维码', 444, 870); // 绘制孩子百分比
+					ctx.fillText('二维码', 444, 910); // 绘制孩子百分比
 					
 					ctx.font = 'normal normal 36px sans-serif';
 					ctx.setFillStyle('#222222'); // 文字颜色
-					ctx.fillText('查看更多详细信息', 300, 920); // 绘制孩子百分比
+					ctx.fillText('查看更多详细信息', 300, 960); // 绘制孩子百分比
 					
 					ctx.drawImage(result[1], coverurl_x, coverurl_y, coverurl_width, coverurl_heigth); // 绘制封面
 					ctx.drawImage(result[0], codeurl_x, codeurl_y, codeurl_width, codeurl_heigth); // 绘制头像
@@ -203,7 +208,25 @@ export default {
 				});
 			}
 		},
- 
+        drawText: function(ctx, str, leftWidth, initHeight, titleHeight, canvasWidth){
+			let lineWidth = 0;
+			let lastSubStrIndex = 0;
+			for(let i = 0; i < str.length; i++){
+				lineWidth += ctx.measureText(str[i]).width;
+				if(lineWidth > canvasWidth){
+					ctx.fillText(str.substring(lastSubStrIndex,i), leftWidth, initHeight);
+					initHeight += 30;
+					lineWidth = 0;
+					lastSubStrIndex = i;
+					titleHeight += 35;
+				}
+				if(i == str.length - 1){
+					ctx.fillText(str.substring(lastSubStrIndex, i+1), leftWidth, initHeight);
+				}
+			}
+			titleHeight = titleHeight + 10;
+			return titleHeight;
+		},
 		// 保存到系统相册
 		saveShareImg: function(canvasToTempFilePath) {
 			let self = this;
