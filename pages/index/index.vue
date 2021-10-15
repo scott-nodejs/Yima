@@ -28,12 +28,12 @@
 			   <view v-html="item.temData"></view>
 		   </view> -->
 		   <view class="plr15" v-if = "item.type === 'base-video'">
-			   <video style="width: 100%;height: 182px;" :src="'http://img.hazer.top'+item.cdata.src"></video>
+			   <video :poster="'http://img.hazer.top/'+item.cdata.poster" style="width: 100%; height: 182px;" :src="'http://img.hazer.top'+item.cdata.src"></video>
 		   </view>
 		   <view class="plr15" v-if = "item.type === 'horizontal-list'">
 			   <view class="mt24" v-for="(listItem,index) in item.cdata.listData" :key="index">
 				   <view class="box pd16_15 flex alcenter mt16">
-					<image class="integral-tuan-l" :src="'http://img.hazer.top/'+listItem.img"></image>
+					<image class="integral-tuan-l" :src="'http://img.hazer.top/'+listItem.img" @tap="_previewImage(listItem.img)"></image>
 					<view class="pl15" style="width: calc(100% - 240rpx);">
 						<view class="ft14 cl-main ftw600 text-over">{{listItem.title}}</view>
 						<view class="flex alcenter space mt12 cl-notice">
@@ -49,12 +49,12 @@
 			   <view v-for="(listItem,index) in item.cdata.listData" :key="index">
 				   <view class="mt16 flex space">
 					<view class="box pd16_15" style="width: 330rpx;">
-						<image class="integral-mall-goods" :src="'http://img.hazer.top/'+listItem[0].img"></image>
+						<image class="integral-mall-goods" :src="'http://img.hazer.top/'+listItem[0].img" @tap="_previewImage(listItem[0].img)"></image>
 						<view class="mt8 ft14 ftw600 text-center cl-main">{{listItem[0].title}}</view>
 						<view class="text-center mt8 ft12 cl-notice">{{listItem[0].desc}}</view>
 					</view>
 					<view class="box pd16_15" style="width: 330rpx;">
-						<image class="integral-mall-goods" :src="'http://img.hazer.top/'+listItem[1].img"></image>
+						<image class="integral-mall-goods" :src="'http://img.hazer.top/'+listItem[1].img" @tap="_previewImage(listItem[1].img)"></image>
 						<view class="mt8 ft14 ftw600 text-center cl-main">{{listItem[1].title}}</view>
 						<view class="text-center mt8 ft12 cl-notice">{{listItem[1].desc}}</view>
 					</view>
@@ -81,8 +81,11 @@
 		 <view v-if="gotop === true" class="top"  :style="{'display':(topState===true? 'block':'none')}">
 		     <uni-icons class="topc" type="arrowthinup" size="50" @click="top"></uni-icons>
 		 </view>
+		 
      </scroll-view>
-	 
+	 <view v-if="bottomMenu !== '' || bottomMenu !== null">
+	 			 <com-footer></com-footer>
+	 </view>
    </view>
 </template>
  
@@ -99,7 +102,8 @@
 		autoH:"",
 		autoW:"",
 		gotop: false,
-		topState: false
+		topState: false,
+		bottomMenu : ''
       }
     },
 	onLoad(option) {
@@ -107,7 +111,7 @@
 		if(option.preview == 1){
 			url = 'http://yima.hazer.top/api/preview/getInfo/'+option.uid;
 		}else{
-		    url = 'http://yima.hazer.top/api/getInfo?clientId='+option.clientId;
+		    url = 'http://localhost:9080/oneCode/api/getInfo?clientId='+option.clientId;
 		}
 		new Promise((resolve, reject) =>{
 			uni.request({
@@ -120,6 +124,7 @@
 			  this.display = true;
 			  var config = res.data.data;
 			  this.gotop = config.gotop;
+			  this.bottomMenu = config.bottomMenu;
 			  var data = res.data.data.cdata;
 			  this.$store.commit('updateRecommend',config);
 			  uni.setNavigationBarTitle({
