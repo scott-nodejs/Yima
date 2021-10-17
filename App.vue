@@ -47,4 +47,7 @@
 <style>
 	/*每个页面公共css */
 	@import url("./static/css/common.css");
+	@import url("./static/css/core.css");
+	@import url("./static/css/snow.css");
+	@import url("./static/css/bubble.css");
 </style>

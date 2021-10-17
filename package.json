@@ -10,8 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cos-js-sdk-v5": "^0.5.20",
-    "tim-js-sdk": "^2.1.4",
+    "cos-js-sdk-v5": "^0.5.27",
+    "tim-js-sdk": "^2.14.0",
     "vue-clipboard2": "^0.3.3"
   }
 }

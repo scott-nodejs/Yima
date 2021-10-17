@@ -24,11 +24,15 @@
 		   <view class="plr15" v-if="item.type === 'swiper-banner'">
 			   <com-banner :adData="item.cdata.advertList"></com-banner>
 		   </view>
-		   <!-- <view v-if="item.type === 'richtext'">
-			   <view v-html="item.temData"></view>
-		   </view> -->
+		   <view class="plr15">
+               <view class="mt16" v-if="item.type === 'rich-text'">
+			      <view v-html="item.cdata.txt"></view>
+			   </view>
+		   </view>
 		   <view class="plr15" v-if = "item.type === 'base-video'">
-			   <video :poster="'http://img.hazer.top/'+item.cdata.poster" style="width: 100%; height: 182px;" :src="'http://img.hazer.top'+item.cdata.src"></video>
+			   <view class="mt16">
+			      <video :poster="'http://img.hazer.top/'+item.cdata.poster" style="width: 100%; height: 182px;" :src="'http://img.hazer.top'+item.cdata.src"></video>
+		       </view>
 		   </view>
 		   <view class="plr15" v-if = "item.type === 'horizontal-list'">
 			   <view class="mt24" v-for="(listItem,index) in item.cdata.listData" :key="index">
@@ -83,8 +87,8 @@
 		 </view>
 		 
      </scroll-view>
-	 <view v-if="bottomMenu !== '' || bottomMenu !== null">
-	 			 <com-footer></com-footer>
+	 <view v-if="bottomMenu != null">
+	 	<com-footer model="integral"></com-footer>
 	 </view>
    </view>
 </template>
@@ -103,8 +107,10 @@
 		autoW:"",
 		gotop: false,
 		topState: false,
-		bottomMenu : ''
-      }
+		bottomMenu : '',
+		content: '',
+	    }
+	
     },
 	onLoad(option) {
 		let url;
@@ -113,6 +119,7 @@
 		}else{
 		    url = 'http://localhost:9080/oneCode/api/getInfo?clientId='+option.clientId;
 		}
+		this.content = this.content.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ');
 		new Promise((resolve, reject) =>{
 			uni.request({
 			   url: url,
@@ -155,7 +162,7 @@
 	  　　　　uni.pageScrollTo({ 
 	  　　　　　　scrollTop: 0, duration: 300 
 	  　　　　}); 
-	  　　} 
+	  　　}
     }
   }
 </script>
