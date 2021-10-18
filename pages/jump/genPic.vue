@@ -331,7 +331,7 @@ export default {
 };
 </script>
  
-<!-- <style lang="scss">
+<style lang="scss">
 	.post {
 	    height: 100%;
 	    background-color: #f4f4f4;
@@ -344,4 +344,4 @@ export default {
 	        margin-top: 50upx;
 	    }
 	}
-</style> -->
+</style>

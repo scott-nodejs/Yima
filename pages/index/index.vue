@@ -24,9 +24,9 @@
 		   <view class="plr15" v-if="item.type === 'swiper-banner'">
 			   <com-banner :adData="item.cdata.advertList"></com-banner>
 		   </view>
-		   <view class="plr15">
-               <view class="mt16" v-if="item.type === 'rich-text'">
-			      <view v-html="item.cdata.txt"></view>
+		   <view class="plr15" v-if="item.type === 'rich-text'">
+			   <view class="mt16 article-content">
+			       <rich-text  :nodes="htmlParese(item.cdata.txt)"></rich-text>
 			   </view>
 		   </view>
 		   <view class="plr15" v-if = "item.type === 'base-video'">
@@ -95,6 +95,8 @@
  
 <script>
   import {mapState} from "vuex";
+  import htmlPareser from '@/commen/html-parse.js'
+  
   export default{
     data(){
       return{
@@ -109,6 +111,17 @@
 		topState: false,
 		bottomMenu : '',
 		content: '',
+		nodes: [{
+		                name: 'div',
+		                attrs: {
+		                    class: 'div-class',
+		                    style: 'line-height: 60px; color: red; text-align:center;'
+		                },
+		                children: [{
+		                    type: 'text',
+		                    text: 'Hello&nbsp;uni-app!'
+		                }]
+		            }]
 	    }
 	
     },
@@ -162,7 +175,16 @@
 	  　　　　uni.pageScrollTo({ 
 	  　　　　　　scrollTop: 0, duration: 300 
 	  　　　　}); 
-	  　　}
+	  　　},
+	  preview(src, e) {  //事件：点击富文本里的图片
+	        // do something
+	      },
+	  navigate(href, e) {  //事件：点击富文本里的链接
+	        // do something
+	  },
+	  htmlParese(html){
+		  return htmlPareser(html);
+	  }
     }
   }
 </script>
@@ -224,6 +246,12 @@ scroll-view ::-webkit-scrollbar {
 	.swiper-integral{
 		height: 32rpx;
 		width: 100%;
+	}
+	.article-content{
+		padding: 0, 30rpx;
+		overflow: hidden;
+		font-size: 30rpx;
+		margin-bottom: 30rpx;
 	}
 	/* 回到顶部 */
 	    .top {

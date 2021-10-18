@@ -11,8 +11,7 @@
 			"style": {
 				"navigationBarTitleText": "地图"
 			}
-		}
-        ,{
+		},{
             "path" : "pages/jump/genPic",
             "style" :                                                                                    
             {
@@ -32,8 +31,7 @@
 	  "custom": {
 			"model-(.*)":"@/components/model/$1.vue",
 			"head-(.*)":"@/components/header/$1.vue",
-			"com-(.*)":"@/components/common/$1.vue",
-			"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+			"com-(.*)":"@/components/common/$1.vue"
 	  }
 	}
 }
