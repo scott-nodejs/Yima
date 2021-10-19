@@ -4,6 +4,9 @@
      scroll-y="true" 
      :scroll-with-animation="true" 
      @scroll="scroll">
+		 <view style="padding: 40rpx;position: absolute; z-index: 1000;">
+				 <image id="music" src="../../static/music.png" style="width: 80rpx; height: 80rpx;" :class="musicClass" @click="musicBtn()"></image>
+		 </view>
          <view class="scroll-view-item"  v-for="(item,idx) in recommendArr" :key="idx">
            <view v-if="item.type === 'header'">
 			   <head-myHeader></head-myHeader>
@@ -107,6 +110,8 @@
 		display: true,
 		autoH:"",
 		autoW:"",
+		musicClass: 'img-rotate',
+		muteBgMusic: false,
 		gotop: false,
 		topState: false,
 		bottomMenu : '',
@@ -132,6 +137,7 @@
 		}else{
 		    url = 'http://localhost:9080/oneCode/api/getInfo?clientId='+option.clientId;
 		}
+		this.$music.playBgm({mute:false})
 		this.content = this.content.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ');
 		new Promise((resolve, reject) =>{
 			uni.request({
@@ -145,6 +151,7 @@
 			  var config = res.data.data;
 			  this.gotop = config.gotop;
 			  this.bottomMenu = config.bottomMenu;
+			  console.log(config.bottomMenu)
 			  var data = res.data.data.cdata;
 			  this.$store.commit('updateRecommend',config);
 			  uni.setNavigationBarTitle({
@@ -184,8 +191,27 @@
 	  },
 	  htmlParese(html){
 		  return htmlPareser(html);
-	  }
-    }
+	  },
+	  musicBtn() {
+		 let _that = this;
+	     this.muteBgMusic = !this.muteBgMusic
+	     console.log(this.muteBgMusic,this.muteBgMusic?'已关闭音乐####':'已开启音乐####');      
+	     if (this.muteBgMusic) {
+	          // 开启静音
+			  uni.createSelectorQuery().in(this).select("#music").boundingClientRect(data=>{
+				  _that.musicClass = ""
+			  }).exec()
+	         this.$music.playBgm({mute:true})
+			 }
+	      else {
+	          // 关闭 静音
+			  uni.createSelectorQuery().in(this).select("#music").boundingClientRect(data=>{
+			  	  _that.musicClass = "img-rotate"
+			  }).exec()
+	          this.$music.playBgm({mute:false})
+			}
+	    }
+       }
   }
 </script>
  
@@ -252,6 +278,18 @@ scroll-view ::-webkit-scrollbar {
 		overflow: hidden;
 		font-size: 30rpx;
 		margin-bottom: 30rpx;
+	}
+	@-webkit-keyframes rotation{
+	  from {-webkit-transform: rotate(0deg);}
+	  to {-webkit-transform: rotate(360deg);}
+	}
+	
+	.img-rotate{
+	  -webkit-transform: rotate(360deg);
+	  animation: rotation 1.4s linear infinite;
+	  -moz-animation: rotation 1.4s linear infinite;
+	  -webkit-animation: rotation 1.4s linear infinite;
+	  -o-animation: rotation 1.4s linear infinite;
 	}
 	/* 回到顶部 */
 	    .top {

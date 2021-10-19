@@ -10,6 +10,9 @@ Vue.prototype.$config = config;
 //权限相关的判断
 import {common} from './static/js/mixin/common.js';
 import VueClipboard from 'vue-clipboard2'
+import music from '@/commen/music.js'
+// 挂载到vue实例上
+Vue.prototype.$music =music 
 Vue.use(VueClipboard)
 Vue.mixin(common);
 
