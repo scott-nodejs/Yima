@@ -131,13 +131,14 @@
 	
     },
 	onLoad(option) {
+		
 		let url;
 		if(option.preview == 1){
 			url = 'http://yima.hazer.top/api/preview/getInfo/'+option.uid;
 		}else{
-		    url = 'http://localhost:9080/oneCode/api/getInfo?clientId='+option.clientId;
+		    url = 'http://yima.hazer.top/api/getInfo?clientId='+option.clientId;
 		}
-		this.$music.playBgm({mute:false})
+		
 		this.content = this.content.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ');
 		new Promise((resolve, reject) =>{
 			uni.request({
@@ -158,6 +159,9 @@
 			      title: config.pageName
 			  });
 		  })
+	},
+	onReady() {
+		this.$music.playBgm({mute:false})
 	},
 	onPageScroll(e){ //根据距离顶部距离是否显示回到顶部按钮
 	    if(e.scrollTop>100){ //当距离大于600时显示回到顶部按钮
