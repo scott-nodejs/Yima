@@ -90,9 +90,9 @@
 		 </view>
 		 
      </scroll-view>
-	 <view v-if="bottomMenu != null">
-	 	<com-footer model="integral"></com-footer>
-	 </view>
+	 <!-- <view v-if="bottomMenu != null"> -->
+	 	<com-footer model="index" :menu="menu"></com-footer>
+	 <!-- </view> -->
    </view>
 </template>
  
@@ -114,8 +114,8 @@
 		muteBgMusic: false,
 		gotop: false,
 		topState: false,
-		bottomMenu : '',
 		content: '',
+		menu: '',
 		nodes: [{
 		                name: 'div',
 		                attrs: {
@@ -136,7 +136,7 @@
 		if(option.preview == 1){
 			url = 'http://yima.hazer.top/api/preview/getInfo/'+option.uid;
 		}else{
-		    url = 'http://yima.hazer.top/api/getInfo?clientId='+option.clientId;
+		    url = 'http://localhost:9080/oneCode/api/getInfo?clientId='+option.clientId;
 		}
 		
 		this.content = this.content.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ');
@@ -151,9 +151,8 @@
 			  this.display = true;
 			  var config = res.data.data;
 			  this.gotop = config.gotop;
-			  this.bottomMenu = config.bottomMenu;
-			  console.log(config.bottomMenu)
 			  var data = res.data.data.cdata;
+			  this.menu = config.bottomMenu;
 			  this.$store.commit('updateRecommend',config);
 			  uni.setNavigationBarTitle({
 			      title: config.pageName

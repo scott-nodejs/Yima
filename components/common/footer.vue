@@ -3,7 +3,7 @@
 		<view class="footer-box footer-h">
 			<view class="footer-main flex space">
 				<view v-for="(item,index) in getFooter" :key="index" :data-model="item.model" @click="linkTo" class="footer-item" :style="{width:getWidth,color:model== item.model ? tempColor : '#AEB2C1'}">
-					<text class="ft22 iconfont" :class="item.icon"></text>
+					<text class="ft22 iconfont icontabbar01"></text>
 					<view class="ft12 mt4 ftw600">{{item.name}}</view>
 				</view>
 			</view>
@@ -17,6 +17,9 @@
 			model:{
 				type:String,
 				default:'',
+			},
+			menu:{
+				type: Object
 			}
 		},
 		data(){
@@ -34,8 +37,8 @@
 		computed:{
 			isShowFooter(){
 				let show = false;
-				for(var a  in this.footerList){
-					if(this.footerList[a].model == this.model && this.footerList[a].show == 1){
+				for(var a  in this.menu.config){
+					if(this.menu.config[a].model == this.model && this.menu.config[a].show == 1){
 						show = true;
 					}
 				}
@@ -43,9 +46,10 @@
 			},
 			getFooter(){
 				let arr = new Array;
-				for(var a  in this.footerList){
-					if(this.footerList[a].show == 1){
-						arr.push(this.footerList[a]);
+				console.log(this.menu)
+				for(var a  in this.menu.config){
+					if(this.menu.config[a].show == 1){
+						arr.push(this.menu.config[a]);
 					}
 				}
 				return arr;
