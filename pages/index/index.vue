@@ -4,9 +4,9 @@
      scroll-y="true" 
      :scroll-with-animation="true" 
      @scroll="scroll">
-		 <view style="padding: 40rpx;position: absolute; z-index: 1000;">
-				 <image id="music" src="../../static/music.png" style="width: 80rpx; height: 80rpx;" :class="musicClass" @click="musicBtn()"></image>
-		 </view>
+	     <view v-if="bgMusic" style="padding: 40rpx;position: absolute; z-index: 1000;">
+	 		<image id="music" src="../../static/music.png" style="width: 80rpx; height: 80rpx;" :class="musicClass" @click="musicBtn()"></image>
+	     </view>
          <view class="scroll-view-item"  v-for="(item,idx) in recommendArr" :key="idx">
            <view v-if="item.type === 'header'">
 			   <head-myHeader></head-myHeader>
@@ -88,11 +88,10 @@
 		 <view v-if="gotop === true" class="top"  :style="{'display':(topState===true? 'block':'none')}">
 		     <uni-icons class="topc" type="arrowthinup" size="50" @click="top"></uni-icons>
 		 </view>
-		 
      </scroll-view>
-	 <!-- <view v-if="bottomMenu != null"> -->
-	 	<com-footer model="index" :menu="menu"></com-footer>
-	 <!-- </view> -->
+	 <view v-if="menu != null">
+	 	<com-footer :model="model" :menu="menu" :clientId="clientId"></com-footer>
+	 </view>
    </view>
 </template>
  
@@ -110,36 +109,42 @@
 		display: true,
 		autoH:"",
 		autoW:"",
+		bgMusic: false,
 		musicClass: 'img-rotate',
 		muteBgMusic: false,
+		clientId:'',
 		gotop: false,
 		topState: false,
+		menu : '',
 		content: '',
-		menu: '',
+		model: 'card1',
 		nodes: [{
-		                name: 'div',
-		                attrs: {
-		                    class: 'div-class',
-		                    style: 'line-height: 60px; color: red; text-align:center;'
-		                },
-		                children: [{
-		                    type: 'text',
-		                    text: 'Hello&nbsp;uni-app!'
-		                }]
+		            name: 'div',
+		            attrs: {
+		                class: 'div-class',
+		                style: 'line-height: 60px; color: red; text-align:center;'
+		            },
+		            children: [{
+		                type: 'text',
+		                text: 'Hello&nbsp;uni-app!'
 		            }]
+		        }]
 	    }
-	
     },
 	onLoad(option) {
-		
 		let url;
+		console.log(option.model)
 		if(option.preview == 1){
 			url = 'http://yima.hazer.top/api/preview/getInfo/'+option.uid;
 		}else{
-		    url = 'http://localhost:9080/oneCode/api/getInfo?clientId='+option.clientId;
+			if(option.model == undefined){
+				url = 'http://localhost:9080/oneCode/api/getInfo?clientId='+option.clientId;
+			}else{
+				this.model = option.model
+				url = 'http://localhost:9080/oneCode/api/getInfo?clientId='+option.clientId+'&pageCode='+option.model;
+			}
 		}
-		
-		this.content = this.content.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ');
+		this.clientId = option.clientId
 		new Promise((resolve, reject) =>{
 			uni.request({
 			   url: url,
@@ -151,16 +156,14 @@
 			  this.display = true;
 			  var config = res.data.data;
 			  this.gotop = config.gotop;
-			  var data = res.data.data.cdata;
+			  this.bgMusic = config.bgMusic;
 			  this.menu = config.bottomMenu;
+			  var data = res.data.data.cdata;
 			  this.$store.commit('updateRecommend',config);
 			  uni.setNavigationBarTitle({
 			      title: config.pageName
 			  });
 		  })
-	},
-	onReady() {
-		this.$music.playBgm({mute:false})
 	},
 	onPageScroll(e){ //根据距离顶部距离是否显示回到顶部按钮
 	    if(e.scrollTop>100){ //当距离大于600时显示回到顶部按钮
@@ -196,25 +199,25 @@
 		  return htmlPareser(html);
 	  },
 	  musicBtn() {
-		 let _that = this;
-	     this.muteBgMusic = !this.muteBgMusic
-	     console.log(this.muteBgMusic,this.muteBgMusic?'已关闭音乐####':'已开启音乐####');      
-	     if (this.muteBgMusic) {
-	          // 开启静音
-			  uni.createSelectorQuery().in(this).select("#music").boundingClientRect(data=>{
-				  _that.musicClass = ""
-			  }).exec()
-	         this.$music.playBgm({mute:true})
-			 }
-	      else {
-	          // 关闭 静音
-			  uni.createSelectorQuery().in(this).select("#music").boundingClientRect(data=>{
-			  	  _that.musicClass = "img-rotate"
-			  }).exec()
-	          this.$music.playBgm({mute:false})
-			}
-	    }
-       }
+	  		 let _that = this;
+	  	     this.muteBgMusic = !this.muteBgMusic
+	  	     console.log(this.muteBgMusic,this.muteBgMusic?'已关闭音乐####':'已开启音乐####');      
+	  	     if (this.muteBgMusic) {
+	  	          // 开启静音
+	  			  uni.createSelectorQuery().in(this).select("#music").boundingClientRect(data=>{
+	  				  _that.musicClass = ""
+	  			  }).exec()
+	  	         this.$music.playBgm({mute:true})
+	  			 }
+	  	      else {
+	  	          // 关闭 静音
+	  			  uni.createSelectorQuery().in(this).select("#music").boundingClientRect(data=>{
+	  			  	  _that.musicClass = "img-rotate"
+	  			  }).exec()
+	  	          this.$music.playBgm({mute:false})
+	  			}
+	  	    }
+    }
   }
 </script>
  
@@ -283,17 +286,17 @@ scroll-view ::-webkit-scrollbar {
 		margin-bottom: 30rpx;
 	}
 	@-webkit-keyframes rotation{
-	  from {-webkit-transform: rotate(0deg);}
-	  to {-webkit-transform: rotate(360deg);}
-	}
-	
-	.img-rotate{
-	  -webkit-transform: rotate(360deg);
-	  animation: rotation 1.4s linear infinite;
-	  -moz-animation: rotation 1.4s linear infinite;
-	  -webkit-animation: rotation 1.4s linear infinite;
-	  -o-animation: rotation 1.4s linear infinite;
-	}
+		  from {-webkit-transform: rotate(0deg);}
+		  to {-webkit-transform: rotate(360deg);}
+		}
+		
+		.img-rotate{
+		  -webkit-transform: rotate(360deg);
+		  animation: rotation 1.4s linear infinite;
+		  -moz-animation: rotation 1.4s linear infinite;
+		  -webkit-animation: rotation 1.4s linear infinite;
+		  -o-animation: rotation 1.4s linear infinite;
+		}
 	/* 回到顶部 */
 	    .top {
 	        position: relative;

@@ -331,17 +331,17 @@ export default {
 };
 </script>
  
-<style lang="scss">
-	.post {
-	    height: 100%;
-	    background-color: #f4f4f4;
+<!-- // <style lang="scss">
+// 	.post {
+// 	    height: 100%;
+// 	    background-color: #f4f4f4;
 	
-	    .wrapper {
-	        height: 20rpx;
-	        display: flex;
-	        justify-content: center;
-	        align-items: center;
-	        margin-top: 50upx;
-	    }
-	}
+// 	    .wrapper {
+// 	        height: 20rpx;
+// 	        display: flex;
+// 	        justify-content: center;
+// 	        align-items: center;
+// 	        margin-top: 50upx;
+// 	    }
+// 	} -->
 </style>

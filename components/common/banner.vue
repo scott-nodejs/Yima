@@ -4,7 +4,6 @@
 			<swiper-item v-for="(item,index) in adData" :key="index">
 				<image :src="'http://img.hazer.top/'+item.img"></image>
 			</swiper-item>
-			
 		</swiper>
 	</view>
 </template>

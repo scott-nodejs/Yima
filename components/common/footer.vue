@@ -3,7 +3,7 @@
 		<view class="footer-box footer-h">
 			<view class="footer-main flex space">
 				<view v-for="(item,index) in getFooter" :key="index" :data-model="item.model" @click="linkTo" class="footer-item" :style="{width:getWidth,color:model== item.model ? tempColor : '#AEB2C1'}">
-					<text class="ft22 iconfont icontabbar01"></text>
+					<text class="ft22 iconfont" :class="item.icon"></text>
 					<view class="ft12 mt4 ftw600">{{item.name}}</view>
 				</view>
 			</view>
@@ -15,11 +15,15 @@
 	export default{
 		props:{
 			model:{
-				type:String,
+				type: String,
 				default:'',
 			},
 			menu:{
 				type: Object
+			},
+			clientId:{
+				type: String,
+				default:'',
 			}
 		},
 		data(){
@@ -64,48 +68,19 @@
 		},methods:{
 			linkTo(e){ //链接相关的操作 这个操作一般在首页 和底部菜单出现，其他地方的请另外操作
 				let model = e.currentTarget.dataset.model;
+				console.log(this.model+" "+model)
 				if(this.model == model) return;
-				if(model == 'index'){
-					let page = getCurrentPages();
-					if(page.length > 1){
-						uni.navigateBack({
-							delta:page.length
-						});
-					}else{
-						uni.reLaunch({
-							url:'/pages/client/index'
-						})
-					}
-					return;
-				}
-				let url = '';
-				switch(model){
-					case 'tuan':
-						url = '/pages/client/tuan/index';
-					break;
-					case 'coupon':
-						url = '/pages/client/coupon/index';
-					break;
-					case  'card':
-						url = '/pages/client/card/index';
-					break;
-					case 'member':
-						url = '/pages/client/member/index';
-					break;
-					case 'integral':
-						url = '/pages/client/integral/index'
-					break;
-				}
+				let url = '/pages/index/index?clientId='+this.clientId+'&model='+model;
 				if(url == '') return;
-				if(this.model == 'index'){
-					uni.navigateTo({
-						url:url
-					})
-				}else{
-					uni.redirectTo({
-						url:url
-					})
-				}
+				uni.reLaunch({
+					url:url,
+					success(res){
+						console.log(res)
+					},
+					fail(err){
+						console.log(err)
+					}
+				})
 			}
 		}
 	}
