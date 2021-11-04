@@ -98,7 +98,8 @@
 <script>
   import {mapState} from "vuex";
   import htmlPareser from '@/commen/html-parse.js'
-  
+  import myshare from '../../components/wx/share.js'
+
   export default{
     data(){
       return{
@@ -138,11 +139,16 @@
 			url = 'http://yima.hazer.top/api/preview/getInfo/'+option.uid;
 		}else{
 			if(option.model == undefined){
-				url = 'http://localhost:9080/oneCode/api/getInfo?clientId='+option.clientId;
+				url = 'http://yima.hazer.top/api/getInfo?clientId='+option.clientId;
 			}else{
 				this.model = option.model
-				url = 'http://localhost:9080/oneCode/api/getInfo?clientId='+option.clientId+'&pageCode='+option.model;
+				url = 'http://yima.hazer.top/api/getInfo?clientId='+option.clientId+'&pageCode='+option.model;
 			}
+		}
+		let en = window.navigator.userAgent.toLowerCase();
+        if(en.match(/MicroMessenger/i) == 'micromessenger'){
+			console.log("wx env");
+			myshare.myshare('测试','test','test','http://img.hazer.top//tag/h5-yima-1635232559577.jpeg');
 		}
 		this.clientId = option.clientId
 		new Promise((resolve, reject) =>{

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "生成海报",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "tki-qrcode": "/components/qrcode/tki-qrcode"
+  }
+}
