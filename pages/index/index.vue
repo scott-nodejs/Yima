@@ -130,7 +130,7 @@
 		            }]
 		        }]
 	    }
-    },
+    },	
 	onLoad(option) {
 		let url;
 		console.log(option.model)
@@ -141,7 +141,7 @@
 				url = 'http://localhost:9080/oneCode/api/getInfo?clientId='+option.clientId;
 			}else{
 				this.model = option.model
-				url = 'http://localhost:9080/oneCode/api/getInfo?clientId='+option.clientId+'&pageCode='+option.model;
+				url = 'http://yima.hazer.top/api/getInfo?clientId='+option.clientId+'&pageCode='+option.model;
 			}
 		}
 		this.clientId = option.clientId
