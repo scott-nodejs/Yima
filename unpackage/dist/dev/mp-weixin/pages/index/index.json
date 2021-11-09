@@ -1,9 +1,0 @@
-{
-  "navigationStyle": "custom",
-  "usingComponents": {
-    "head-my-header": "/components/header/myHeader",
-    "com-banner": "/components/common/banner",
-    "model-base-form": "/components/model/baseForm",
-    "com-footer": "/components/common/footer"
-  }
-}

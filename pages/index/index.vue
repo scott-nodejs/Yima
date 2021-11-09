@@ -131,7 +131,7 @@
 		            }]
 		        }]
 	    }
-    },
+    },	
 	onLoad(option) {
 		let url;
 		console.log(option.model)

@@ -1,7 +1,7 @@
 <template>
 	<view class="pd16_15">
 		
-		<view class="box pd20_15">
+		<view v-if="formData.dictWay == 0" class="box pd20_15">
 			<div v-for="(item, index) in formData.cdata.form" :key="index">
 				<view class="flex alcenter" v-if="item.type === 'text'">
 					<view class="ft14 cl-main" style="margin-left: -10rpx;color: #FF3D3D;" v-if="item.isNecessary === 1">*</view>
@@ -70,7 +70,87 @@
 				<view class="bd-line mt20 mb20" v-if="index != formData.cdata.form.length - 1"></view>
 			</div>
 		</view>
-		
+		<view v-else class="box pd20_15">
+			<div v-for="(item, index) in formData.cdata.form" :key="index">
+				<view class="alcenter" v-if="item.type === 'text'">
+					<view class="flex alcenter b5">
+						<view class="ft14 cl-main" style="margin-left: -10rpx;color: #FF3D3D;" v-if="item.isNecessary === 1">*</view>
+						<view class="ft14 cl-main" >
+							{{item.desc}}
+						</view>
+					</view>
+					<view>
+						<input :maxlength="64" v-model="item.val" :placeholder="item.placeholder"  class="ft14 cl-main" placeholder-class="cl-notice" />
+					</view>
+				</view>
+				<view class="alcenter" v-if="item.type === 'number'">
+					<view class="flex alcenter b5">
+						<view class="ft14 cl-main" style="margin-left: -10rpx;color: #FF3D3D;" v-if="item.isNecessary === 1">*</view>
+						<view class="ft14 cl-main">
+							{{item.desc}}
+						</view>
+					</view>
+					<view>
+						<input :maxlength="64" type="number" v-model="item.val" :placeholder="item.placeholder"  class="ft14 cl-main" placeholder-class="cl-notice" />
+					</view>
+				</view>
+				<view class="alcenter" v-else-if="item.type === 'radio'">
+					<view class="flex alcenter b5">
+						<view class="ft14 cl-main" style="margin-left: -10rpx;color: #FF3D3D;" v-if="item.isNecessary === 1">*</view>
+						<view class="ft14 cl-main">
+							{{item.desc}}
+						</view>
+					</view>
+					<view class="alcenter">
+						<radio-group @change="changeDefaultRadio">
+							<view  v-for="(option, idx) in item.options">
+								<radio :value="option.val"  :checked="option.is_default == 1"  :color="tempColor"  />
+								<text class="ml10 ft14 cl-info2">{{option.val}}</text>
+							</view>
+						</radio-group>
+					</view>
+				</view>
+				<view class="alcenter" v-else-if="item.type === 'checkbox'">
+					<view class="flex alcenter b5">
+						<view class="ft14 cl-main" style="margin-left: -10rpx;color: #FF3D3D;" v-if="item.isNecessary === 1">*</view>
+						<view class="ft14 cl-main">
+							{{item.desc}}
+						</view>
+					</view>
+					<view>
+						<checkbox-group @change="changeDefaultCheckbox">
+							<view v-for="(option, idx) in item.options">
+								<checkbox :value="option.val"  :checked="option.is_default == 1"  :color="tempColor"  />
+								<text class="ml10 ft14 cl-info2">{{option.val}}</text>
+							</view>
+						</checkbox-group>
+					</view>
+				</view>
+				<view class="alcenter" v-else-if="item.type === 'select'">
+					<view class="flex alcenter b5">
+						<view class="ft14 cl-main" style="margin-left: -10rpx;color: #FF3D3D;" v-if="item.isNecessary === 1">*</view>
+						<view class="ft14 cl-main">
+							{{item.desc}}
+						</view>
+					</view>
+					<picker @change="bindPickerChange($event)" :value="count" :range="item.options"  range-key="val">
+						<view class="ft14 cl-main">{{item.options[count].val}}</view>
+					</picker>
+				</view>
+				<view class="alcenter" v-else-if="item.type === 'date'">
+					<view class="flex alcenter b5">
+						<view class="ft14 cl-main" style="margin-left: -10rpx;color: #FF3D3D;" v-if="item.isNecessary === 1">*</view>
+						<view class="ft14 cl-main">
+							{{item.desc}}
+						</view>
+					</view>
+					<picker mode="date" :value="date" :start="startDate" :end="endDate" @change="bindDateChange">
+					     <view class="ft14 cl-main">{{date}}</view>
+					</picker>
+				</view>
+				<view class="bd-line fmt20 mb20" v-if="index != formData.cdata.form.length - 1"></view>
+			</div>
+		</view>
 		<view class="mt24">
 			<button class="btn-big" :style="getBtnStyle" @click="submit()">确定保存</button>
 		</view>
@@ -218,5 +298,6 @@
 </script>
 
 <style>
-	
+	.fmt20{margin-top: 10rpx;}
+	.b5{margin-bottom: 30rpx;}
 </style>

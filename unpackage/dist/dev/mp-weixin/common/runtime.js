@@ -105,7 +105,7 @@
 /******/
 /******/
 /******/ 		// mini-css-extract-plugin CSS loading
-/******/ 		var cssChunks = {"components/common/banner":1,"components/common/footer":1,"components/qrcode/tki-qrcode":1,"components/model/cardModel1":1,"components/model/cardModel2":1,"components/model/cardModel3":1};
+/******/ 		var cssChunks = {"components/common/banner":1,"components/common/footer":1,"components/model/baseForm":1,"components/qrcode/tki-qrcode":1,"components/model/cardModel1":1,"components/model/cardModel2":1,"components/model/cardModel3":1};
 /******/ 		if(installedCssChunks[chunkId]) promises.push(installedCssChunks[chunkId]);
 /******/ 		else if(installedCssChunks[chunkId] !== 0 && cssChunks[chunkId]) {
 /******/ 			promises.push(installedCssChunks[chunkId] = new Promise(function(resolve, reject) {
