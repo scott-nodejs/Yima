@@ -31,7 +31,8 @@
 	  "custom": {
 			"model-(.*)":"@/components/model/$1.vue",
 			"head-(.*)":"@/components/header/$1.vue",
-			"com-(.*)":"@/components/common/$1.vue"
+			"com-(.*)":"@/components/common/$1.vue",
+			"sub-(.*)":"@/components/sub/$1.vue"
 	  }
 	}
 }
