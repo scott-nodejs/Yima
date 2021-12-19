@@ -1,16 +1,17 @@
 const bgm = uni.createInnerAudioContext();
-bgm.src = 'http://img.hazer.top/music.mp3'
-bgm.loop = true;
+bgm.autoplay = true
 
 var music = {
     //mute 表示是否是静音，，默认不静音
     playBgm({mute=false}){
-		
+		bgm.src = 'http://img.hazer.top/music.mp3'
+		bgm.loop = true;
         if (!bgm) return;
         if(mute){
+			console.log("bbb" + JSON.stringify(bgm));
             bgm.pause()
         }else{
-			console.log("aaa");
+			console.log("aaa" + JSON.stringify(bgm));
             bgm.play()
         }
         

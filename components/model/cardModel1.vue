@@ -43,7 +43,7 @@
 					 </view>
 				 </view> -->
 				 <view class="flex alcenter mt16">
-				 	<image class="adviser-face-big" :src="'http://img.hazer.top/'+cardData.cdata.avterUrl"></image>
+				 	<image class="adviser-face-big" :src="'http://img.hazer.top/'+cardData.cdata.avatar"></image>
 				 	<view style="width: calc(100% - 160rpx);" class=" pl15">
 				 		<view class="ft16 cl-main ftw600">{{cardData.cdata.company}}</view>
 						<view v-if="cardData.cdata.userName !== ''">
@@ -61,7 +61,7 @@
 									<text class="iconfont iconicon_weixin ft14"></text>
 									<text class="ft14 ml5">{{cardData.cdata.weixin}}</text>
 								</view>
-								<view class="copy-tag ml10" :style="{background:tempColor}">复制</view>
+								<view class="copy-tag ml10" @click="copyText(cardData.cdata.weixin)" :style="{background:tempColor}">复制</view>
 							</view>
 						</view>
 				 		<view v-if="cardData.cdata.phone !== ''">
@@ -71,7 +71,7 @@
 									<text class="ft14 ml5">{{cardData.cdata.phone}}</text>
 								</view>
 								
-								<text class="iconfont iconicon_bottom_call ft20" :style="{color:tempColor}"></text>
+								<text class="iconfont iconicon_bottom_call ft20" @click="goCall(cardData.cdata.phone)" :style="{color:tempColor}"></text>
 							</view>
 						</view>
 				 	</view>
@@ -83,15 +83,15 @@
 							<!-- <text class="ft14">地址:</text> -->
 							<text class="ft14 ml5">{{cardData.cdata.address}}</text>
 						</view>
-						
-						<view @click="jumpMap" class="copy-tag ml10" :style="{background:tempColor}">查看</view>
-					
+						<navigator :url="'/pages/jump/map?lnglat='+cardData.cdata.lnglat">
+						     <view @click="jumpMap" class="copy-tag ml10" :style="{background:tempColor}">查看</view>
+					    </navigator>
 					 </view>
 				 </view>
 				 
 				 <view class="flex space alcenter  mt24" style="padding-bottom: 16rpx;">
 					 <view class="flex alcenter">
-						 <navigator>
+						 <navigator :url="'/pages/jump/genPic?coverImg='+cardData.cdata.bgImg+'&company='+cardData.cdata.company+'&address='+cardData.cdata.address+'&phone='+cardData.cdata.phone+'&userName='+cardData.cdata.userName+'&weixin='+cardData.cdata.weixin+'&clientId='+cardData.cdata.clientId">
 							<view class="btn-vip-money" :style="getBtnStyle">发送朋友</view>
 						 </navigator>
 						 <navigator>
@@ -116,9 +116,6 @@
 			}
 		},
 		props:{
-			cardData:{
-				type: Object
-			}
 		},
 		methods:{
 			loginAct(){
@@ -134,6 +131,26 @@
 				uni.navigateTo({
 					url:'/pages/jump/map?lat='+arr[0]+'&lng='+arr[1]
 				})
+			},
+			goCall(phoneNumber){
+				uni.makePhoneCall({
+					phoneNumber:phoneNumber,
+					success() {
+						console.log("调用成功")
+					},
+					fail() {
+						console.log("调用失败");
+					}
+				})
+			},
+			copyText(val){
+				this.$copyText(val).then(
+				     res => {
+				         uni.showToast({
+				         title: '复制成功'
+				     })
+				   }
+			    )
 			}
 		}
 	}
@@ -151,7 +168,7 @@
 	.home-main{
 		width: 100%;
 		position: relative;
-		margin-top: -106rpx;
+		margin-top: -36rpx;
 		padding: 0 30rpx;
 	}
 	.home-mendian{

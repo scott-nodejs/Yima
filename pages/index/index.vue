@@ -1,9 +1,10 @@
 <template>
    <view>
-     <scroll-view 
+	   <view>
+     <!-- <scroll-view 
      scroll-y="true" 
      :scroll-with-animation="true" 
-     @scroll="scroll">
+     @scroll="scroll"> -->
 	     <view v-if="bgMusic" style="padding: 40rpx;position: absolute; z-index: 1000;">
 	 		<image id="music" src="../../static/music.png" style="width: 80rpx; height: 80rpx;" :class="musicClass" @click="musicBtn()"></image>
 	     </view>
@@ -119,17 +120,24 @@
 			</scroll-view>
 		   </view>
 		   <view class="pd16_15" v-if="item.type === 'mytebs'">
-			   <sub-tabnav :tabs="item.cdata.tebs"  @change="changeIndex" :selectIndex="selectIndex" :scrollTop="tebTop"></sub-tabnav>
+			   <view class="tuan-detail-content-tab">
+				   <sub-tabnav :tabs="item.cdata.tebs"  @change="changeIndex" :selectIndex="selectIndex" :scrollTop="tebTop"></sub-tabnav>
+			   </view>
+			   <view v-for="(teb, index) in item.cdata.tebs" v-if="selectIndex == index" class="pd16_15">
+			   	<view class="ft14 cl-main  lh20 mb16">{{teb.name}}</view>
+			   </view>
 		   </view>
          </view>
 		 <!-- <com-copyright></com-copyright> -->
-		 <view v-if="gotop === true" class="top"  :style="{'display':(topState===true? 'block':'none')}">
+		 <!-- <view v-if="gotop === true" class="top"  :style="{'display':(topState===true? 'block':'none')}">
 		     <uni-icons class="topc" type="arrowthinup" size="50" @click="top"></uni-icons>
-		 </view>
-     </scroll-view>
+		 </view> -->
+		
+     </view>
 	 <view v-if="menu != null">
 	 	<com-footer :model="model" :menu="menu" :clientId="clientId"></com-footer>
 	 </view>
+	 
    </view>
 </template>
  
@@ -150,8 +158,8 @@
 		autoH:"",
 		autoW:"",
 		bgMusic: false,
-		musicClass: 'img-rotate',
-		muteBgMusic: false,
+		musicClass: '',
+		muteBgMusic: true,
 		clientId:'',
 		gotop: false,
 		topState: false,
@@ -170,7 +178,7 @@
 		            }]
 		        }]
 	    }
-    },	
+    },
 	onLoad(option) {
 		let url;
 		console.log(option.model)
@@ -424,5 +432,8 @@ scroll-view ::-webkit-scrollbar {
 		}
 		.vip-coupon-scroll .item .y-r{
 			right: -10rpx;
+		}
+		.tuan-detail-content-tab{
+			height: 102rpx;
 		}
 </style>

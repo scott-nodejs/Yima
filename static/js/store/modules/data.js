@@ -2,7 +2,8 @@ const state = {
   headerType: 0,
   recommendArr:[],
   cardData:{},
-  cId: 0
+  cId: 0,
+  showQrcode: false
 };
 const mutations = {
 	updateRecommend(state, config){
