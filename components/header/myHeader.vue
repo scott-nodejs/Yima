@@ -4,10 +4,10 @@
 			<model-cardModel1 :cardData="cardData" :clientId="clientId"></model-cardModel1>
 		</view>
 		<view v-if="headerType === 1">
-			<model-cardModel3></model-cardModel3>
+			<model-cardModel3 @qrcode="showQrcode = true"></model-cardModel3>
 		</view>
 		<view v-if="headerType === 2">
-			<model-cardModel3 :cardData="cardData" :clientId="clientId"></model-cardModel3>
+			<model-cardModel1 @qrcode="showQrcode = true"></model-cardModel1>
 		</view>
 		<view v-if="headerType === 3">
 			<model-cardModel1></model-cardModel1>
@@ -36,6 +36,7 @@
 		<view v-else-if="headerType === 11">
 			<model-cardModel2></model-cardModel2>
 		</view>
+		<dialog-qrcode v-if="showQrcode" @closed="showQrcode = false"></dialog-qrcode>
 	</view>
 </template>
 
@@ -43,7 +44,7 @@
 	export default {
 		data() {
 			return {
-			
+				showQrcode: false,
 			}
 		},
 		props: {

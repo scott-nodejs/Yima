@@ -16,7 +16,9 @@
 					<!-- <text class="ml10 ft16 cl-notice">电话：</text>
 					<text class="ft16 cl-notice ">{{cardData.temData.Telephone}}</text> -->
 				</view>
-				<view class="cl-notice ft16">点赞{{cardData.cdata.likeQty}}</view>
+				<view v-if="cardData.cdata.wxCode != null" @click="showQrcodeAct" class="vip-qrcode-tag" :style="getBtnStyle">
+					<text class="iconfont iconbtn_card_ma-copy ft20 cl-w"></text>
+				</view>
 			</view>
 			<view v-if="cardData.cdata.phone !== ''">
 				<view class="flex alcenter mt8">
@@ -86,7 +88,6 @@
 		</view> -->
 		
 		<dialog-login v-if="showLogin" @loginYes="loginYes" @closed="showLogin = false"></dialog-login>
-		
 	</view>
 </template>
 
@@ -122,6 +123,9 @@
 						url:'/pages/client/vipcard/adviser'
 					})
 				}
+			},
+			showQrcodeAct(){
+				this.$emit('qrcode');
 			},
 			buyAct(){
 				if(this.isLogin == false){
@@ -218,5 +222,13 @@
 		text-align: center;
 		line-height: 40rpx;
 		border-radius: 20rpx;
+	}
+	.vip-qrcode-tag{
+		width: 80rpx;
+		height: 80rpx;
+		border-radius: 40rpx;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 </style>

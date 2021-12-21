@@ -1,9 +1,10 @@
 <template>
    <view>
-     <scroll-view 
+	   <view>
+     <!-- <scroll-view 
      scroll-y="true" 
      :scroll-with-animation="true" 
-     @scroll="scroll">
+     @scroll="scroll"> -->
 	     <view v-if="bgMusic" style="padding: 40rpx;position: absolute; z-index: 1000;">
 	 		<image id="music" src="../../static/music.png" style="width: 80rpx; height: 80rpx;" :class="musicClass" @click="musicBtn()"></image>
 	     </view>
@@ -83,15 +84,60 @@
 		   <view v-if="item.type === 'base-form'">
 			   <model-baseForm :formData="item"></model-baseForm>
 		   </view>
+		   <view class="pd16_15" v-if="item.type === 'coupon'">
+			   <view class="box over-hide">
+			   	<view class="card-box-header">
+			   		<view class="main pd24_15">
+			   			<view class="flex space">
+			   				<view>
+			   					<view class="ft18 ftw600 cl-w"><span class="ft24">{{item.cdata.money}}</span>元优惠券</view>
+			   				</view>
+							<view>
+								<view class="tag-save">
+									{{item.cdata.condition}}
+								</view>
+								<view class="mt10 ml10">
+									<text class="cl-w ft10">{{item.cdata.time}}</text>
+								</view>
+							</view>
+			   				
+			   			</view>
+			   		</view>
+			   	</view>
+			   	<view class="pd10_15 flex alcenter space">
+			   		<view class="ft12 cl-notice">{{item.cdata.shop}}</view>
+			   	</view>
+			   </view>
+		   </view>
+		   <view class="pd16_15" v-if="item.type === 'tscroll'">
+			   <scroll-view class="vip-coupon-scroll" :scroll-x="true">
+			   	<view class="item" v-for="(listItem, index) in item.cdata.listData" :key="index">
+					<image style="width: 240rpx;height: 230rpx;" :src="'http://img.hazer.top/'+listItem.img" @tap="_previewImage(listItem.img)"></image>
+			   		<view class="mt12 flex center">
+			   			<view class="btn-small" style="color:#000000;width: 190rpx;">{{listItem.title}}</view>
+			   		</view>
+			   	</view>
+			</scroll-view>
+		   </view>
+		   <view class="pd16_15" v-if="item.type === 'mytebs'">
+			   <view class="tuan-detail-content-tab">
+				   <sub-tabnav :tabs="item.cdata.tebs"  @change="changeIndex" :selectIndex="selectIndex" :scrollTop="tebTop"></sub-tabnav>
+			   </view>
+			   <view v-for="(teb, index) in item.cdata.tebs" v-if="selectIndex == index" class="pd16_15">
+			   	<view class="ft14 cl-main  lh20 mb16">{{teb.name}}</view>
+			   </view>
+		   </view>
          </view>
 		 <!-- <com-copyright></com-copyright> -->
-		 <view v-if="gotop === true" class="top"  :style="{'display':(topState===true? 'block':'none')}">
+		 <!-- <view v-if="gotop === true" class="top"  :style="{'display':(topState===true? 'block':'none')}">
 		     <uni-icons class="topc" type="arrowthinup" size="50" @click="top"></uni-icons>
-		 </view>
-     </scroll-view>
+		 </view> -->
+		
+     </view>
 	 <view v-if="menu != null">
 	 	<com-footer :model="model" :menu="menu" :clientId="clientId"></com-footer>
 	 </view>
+	 
    </view>
 </template>
  
@@ -107,12 +153,14 @@
         old: {
             scrollTop: 0
         },
+		tebTop:0,
+		selectIndex:0,
 		display: true,
 		autoH:"",
 		autoW:"",
 		bgMusic: false,
-		musicClass: 'img-rotate',
-		muteBgMusic: false,
+		musicClass: '',
+		muteBgMusic: true,
 		clientId:'',
 		gotop: false,
 		topState: false,
@@ -131,7 +179,7 @@
 		            }]
 		        }]
 	    }
-    },	
+    },
 	onLoad(option) {
 		let url;
 		console.log(option.model)
@@ -179,6 +227,9 @@
 	    }
 	},
     methods:{
+	  changeIndex(index){
+		this.selectIndex = index;
+	  },
       scroll: function(e) {
           this.old.scrollTop = e.detail.scrollTop
       },
@@ -318,4 +369,77 @@ scroll-view ::-webkit-scrollbar {
 	        line-height: 50px;
 			z-index: 99;
 	    }
+		.card-box-header{
+			height: 182rpx;
+			width: 100%;
+			position: relative;
+			background: #E4A216;
+		}
+		.card-box-header .main{
+			position: absolute;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 232rpx;
+		}
+		.card-box-header .bg{
+			width: 100%;
+			height: 182rpx;
+		}
+		.tag-card{
+			width: 64rpx;
+			height: 32rpx;
+			background: linear-gradient(139deg, #FFE5AD 0%, #FFBC5C 100%);
+			border-radius: 4rpx;
+			font-size: 24rpx;
+			text-align: center;
+			line-height: 32rpx;
+			color: #A86B1B;
+		}
+		.tag-save{
+			width: 238rpx;
+			height: 40rpx;
+			background: #ffffff;
+			border-radius: 20rpx;
+			font-size: 24rpx;
+			text-align: center;
+			line-height: 40rpx;
+			color:#E4A216;
+			font-weight: 600;
+		}
+		.vip-coupon-scroll{
+			white-space: nowrap;
+			height: 360rpx;
+		}
+		.vip-coupon-scroll .item{
+			height: 360rpx;
+			display: inline-block;
+			width: 270rpx;
+			background: #FFFFFF;
+			position: relative;
+			border-radius: 16rpx;
+			overflow: hidden;
+		}
+		.vip-coupon-scroll .item .top{
+			padding: 32rpx 40rpx 24rpx 40rpx;
+			border-bottom: 2rpx dashed #FEC675;
+		}
+		.vip-coupon-scroll .item .y-l,.vip-coupon-scroll .item .y-r{
+			width: 20rpx;
+			height: 20rpx;
+			border-radius: 10rpx;
+			background: #F87065;
+			position: absolute;
+			z-index: 2;
+			top: 220rpx;
+		}
+		.vip-coupon-scroll .item .y-l{
+			left: -10rpx;
+		}
+		.vip-coupon-scroll .item .y-r{
+			right: -10rpx;
+		}
+		.tuan-detail-content-tab{
+			height: 102rpx;
+		}
 </style>

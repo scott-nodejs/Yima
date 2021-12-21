@@ -1,7 +1,7 @@
 <template>
 	<view class="pd16_15">
 		
-		<view v-if="formData.dictWay == 0" class="box pd20_15">
+		<view v-if="formData.cdata.dictWay === 0" class="box pd20_15">
 			<div v-for="(item, index) in formData.cdata.form" :key="index">
 				<view class="flex alcenter" v-if="item.type === 'text'">
 					<view class="ft14 cl-main" style="margin-left: -10rpx;color: #FF3D3D;" v-if="item.isNecessary === 1">*</view>
